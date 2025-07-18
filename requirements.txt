@@ -1,0 +1,21 @@
+# LangChain core + community tools
+langchain
+langchain-core
+langchain-community
+
+# Vector Stores
+faiss-cpu         
+chromadb          
+
+# LLM Providers
+openai            
+langchain-openai  
+langchain-groq   
+
+# Hugging Face
+transformers      
+huggingface-hub   
+langchain-huggingface  
+
+# Environment Variable Management
+python-dotenv
