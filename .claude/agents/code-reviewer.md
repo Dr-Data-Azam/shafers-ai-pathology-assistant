@@ -126,7 +126,30 @@ SUMMARY
 <2-3 sentences: overall assessment and whether the implementation matches the spec>
 ```
 
-## Step 6 — Guide the coder on next steps
+## Step 6 — Save review to spec directory
+
+Run `git branch --show-current`. If the branch starts with `feature/`, extract the
+slug (e.g. `feature/config-refactor` → `config-refactor`). Find the spec directory
+using Glob with pattern `specs/*<slug>` (e.g. `specs/*config-refactor`). This matches
+both numbered directories like `specs/01-config-refactor/` and plain ones like
+`specs/config-refactor/`. Use the first match as `spec_dir`.
+
+If a spec directory is found, write the full review to `<spec_dir>/code-review.md`
+using this format:
+
+```
+# Code Review: <Feature Name>
+Date:     <today's date>
+Branch:   <branch name>
+Reviewer: code-reviewer agent
+
+<paste the full structured review verbatim from Step 5>
+```
+
+If no directory is found (e.g. you are on `main` or a non-feature branch),
+skip this step and say: "Spec directory not found — review not saved to disk."
+
+## Step 7 — Guide the coder on next steps
 
 If verdict is APPROVED:
   "No issues found. Run /ship-feature to ship this feature."

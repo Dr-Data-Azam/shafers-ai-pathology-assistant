@@ -24,8 +24,13 @@ code yet.
 
 ## Step 1: Read the Non-Tech Spec
 
-Before writing anything, read the approved non-tech spec at:
-specs/<feature-slug>/non-tech-spec.md
+Before writing anything, find the spec directory. Run `git branch --show-current`,
+strip the `feature/` prefix to get the slug (e.g. `feature/config-refactor` →
+`config-refactor`), then use Glob with pattern `specs/*<slug>` (e.g.
+`specs/*config-refactor`) to locate the directory. This matches both numbered
+directories like `specs/01-config-refactor/` and plain ones like `specs/config-refactor/`.
+Use the first match as `spec_dir`. Then read the approved non-tech spec at:
+<spec_dir>/non-tech-spec.md
 
 Extract and internalize:
 - The acceptance criteria — these become your implementation tasks
@@ -142,7 +147,15 @@ After writing the spec:
 1. Show the full tech spec to the coder.
 2. Ask: "Does this implementation plan look right? Any tasks missing or approaches you want to change?"
 3. Apply corrections, then show the updated spec.
-4. State: "Tech spec is saved to specs/<feature-slug>/tech-spec.md. Ready to build when you are. Tell me to start with Task 1."
+4. Once the coder approves (via ExitPlanMode or explicit "go ahead"), IMMEDIATELY write the
+   full tech spec to `<spec_dir>/tech-spec.md` using the Write tool — before any
+   implementation begins. This is the first action after plan approval, not an afterthought.
+   (Use the same `spec_dir` found in Step 1, e.g. `specs/01-config-refactor/tech-spec.md`.)
+5. Confirm: "Tech spec saved to <spec_dir>/tech-spec.md. Ready to build. Tell me to start with Task 1."
+
+**Why this matters:** In Plan Mode the harness only permits writing to the system plan file
+(e.g. `~/.claude/plans/<id>.md`). The spec directory file must be written AFTER ExitPlanMode
+returns, as the very first post-approval action. If you skip this step, the spec is lost.
 
 The coder must explicitly say "go ahead" or "start building" before any code is written.
 Never begin implementation from within this skill.

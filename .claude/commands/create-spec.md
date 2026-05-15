@@ -68,14 +68,22 @@ git checkout -b <branch_name>
 Confirm the branch was created by running `git branch --show-current`
 and verifying it matches `branch_name`.
 
-## Step 6 — Create the spec directory
+## Step 6 — Determine the spec number and create the spec directory
 
-Create the directory for this feature's specs:
-```
-specs/<feature_slug>/
-```
+List all existing numbered spec directories to find the next available number.
+Use Glob with pattern `specs/[0-9][0-9]-*` to list them, then extract the two-digit
+prefix from each name. Find the highest number in use; the next spec number is that
+value + 1, zero-padded to two digits (01, 02, ... 09, 10, 11, ...).
+If no numbered directories exist yet, start at 01.
 
-This is where both the non-tech spec and tech spec will live.
+Set `spec_dir_slug` = `NN-<feature_slug>`
+Example: feature_slug="llm-response-cache", next number=02 → spec_dir_slug="02-llm-response-cache"
+
+Create the directory: `specs/<spec_dir_slug>/`
+
+This is where both the non-tech spec and tech spec will live. From this point on,
+all references to the spec directory use `specs/<spec_dir_slug>/` (the numbered form),
+not `specs/<feature_slug>/`.
 
 ## Step 7 — Read the skill and interview the coder
 
@@ -89,7 +97,7 @@ Q4 and Q5 can be inferred if the coder says "not sure" or "none".
 ## Step 8 — Generate and save the non-tech spec
 
 Using the coder's answers and the template from the skill, generate the spec.
-Save it to: `specs/<feature_slug>/non-tech-spec.md`
+Save it to: `specs/<spec_dir_slug>/non-tech-spec.md`
 
 Do NOT print the full spec in chat. Instead say:
 "Spec saved. Here is a summary:" and show only the Problem Statement and Acceptance Criteria.
@@ -99,11 +107,11 @@ Do NOT print the full spec in chat. Instead say:
 Print this exact format:
 ```
 Branch:    <branch_name>
-Spec file: specs/<feature_slug>/non-tech-spec.md
+Spec file: specs/<spec_dir_slug>/non-tech-spec.md
 Feature:   <feature_title>
 ```
 
 Then say:
-"Review the spec at specs/<feature_slug>/non-tech-spec.md and let me know if anything
+"Review the spec at specs/<spec_dir_slug>/non-tech-spec.md and let me know if anything
 needs changing. Once you approve it, say: 'Create the tech spec' and I will switch to
 Plan Mode to design the implementation."

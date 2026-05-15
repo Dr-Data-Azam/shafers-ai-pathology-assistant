@@ -125,7 +125,30 @@ SUMMARY
 <2-3 sentences: overall security posture of this change>
 ```
 
-## Step 5 — Guide the coder on next steps
+## Step 5 — Save review to spec directory
+
+Run `git branch --show-current`. If the branch starts with `feature/`, extract the
+slug (e.g. `feature/config-refactor` → `config-refactor`). Find the spec directory
+using Glob with pattern `specs/*<slug>` (e.g. `specs/*config-refactor`). This matches
+both numbered directories like `specs/01-config-refactor/` and plain ones like
+`specs/config-refactor/`. Use the first match as `spec_dir`.
+
+If a spec directory is found, write the full review to `<spec_dir>/security-review.md`
+using this format:
+
+```
+# Security Review: <Feature Name>
+Date:     <today's date>
+Branch:   <branch name>
+Reviewer: security-reviewer agent
+
+<paste the full security review verbatim from Step 4>
+```
+
+If the directory does not exist (e.g. you are on `main` or a non-feature branch),
+skip this step and say: "Spec directory not found — review not saved to disk."
+
+## Step 6 — Guide the coder on next steps
 
 If verdict is CLEAR:
   "No security issues found. Safe to proceed with /ship-feature."

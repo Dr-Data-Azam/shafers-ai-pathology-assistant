@@ -6,7 +6,7 @@ description: >
   "create tests for this feature", or "add test coverage". This agent always reads the
   write-test skill first, then produces complete, runnable test files that follow project
   conventions — correct mocks, correct fixtures, never touching real APIs or disk.
-allowed-tools: Read, Write, Glob, Bash(pytest:*), Bash(python:*)
+allowed-tools: Read, Write, Glob, Bash(pytest:*), Bash(python:*), Bash(git:*)
 ---
 
 You are the Test Writer for the Shafer's AI Pathology Assistant project.
@@ -99,7 +99,9 @@ If any tests fail:
 - Fix the test (not the source code — if source code is broken, report it to the coder)
 - Re-run until all tests pass
 
-## Step 7 — Report to the coder
+## Step 7 — Report and save to spec directory
+
+Print the console report:
 
 ```
 Test file:  tests/test_<module>.py
@@ -110,3 +112,39 @@ Coverage:   Run /test for full coverage report
 
 List each test name and one-line description of what it verifies.
 If coverage for the module is below target, name the untested functions.
+
+Then save a persistent record:
+
+Run `git branch --show-current`. If the branch starts with `feature/`, extract
+the slug (e.g. `feature/config-refactor` → `config-refactor`). Find the spec
+directory using Glob with pattern `specs/*<slug>` (e.g. `specs/*config-refactor`).
+This matches both numbered directories like `specs/01-config-refactor/` and plain
+ones like `specs/config-refactor/`. Use the first match as `spec_dir`.
+
+If a spec directory is found, write `<spec_dir>/test-report.md` using this format:
+
+```
+# Test Report: <Feature Name>
+Date:       <today's date>
+Branch:     <branch name>
+Written by: test-writer agent
+
+## Test Files
+- `tests/test_<module>.py` — N tests
+(list every file written or modified)
+
+## Results
+<N> written | <N> passed | <N> failed
+
+## Test List
+| Test | Verifies |
+|------|----------|
+| test_<name> | <one-line description> |
+...
+
+## Coverage Notes
+<module>: <X>% — <list any uncovered functions if below 80%>
+```
+
+If the directory does not exist (e.g. you are on `main` or a non-feature branch),
+skip saving and say: "Spec directory not found — test report not saved to disk."
