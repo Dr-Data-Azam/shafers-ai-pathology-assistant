@@ -5,7 +5,11 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 from llm_provider_manager import load_llm, validate_provider
-from vector_retriever import get_retriever, get_comprehensive_context, process_documents_for_context
+from vector_retriever import (
+    get_retriever,
+    get_comprehensive_context,
+    process_documents_for_context,
+)
 from chat_history_manager import save_chat_history
 
 # Adaptive prompt template for both specific and general questions
@@ -54,54 +58,57 @@ Question: {question}
 
 Provide an appropriate answer based on the question type:"""
 
+
 def create_prompt():
     """Create and return the prompt template"""
     return PromptTemplate(
-        input_variables=["context", "question"],
-        template=PROMPT_TEMPLATE
+        input_variables=["context", "question"], template=PROMPT_TEMPLATE
     )
 
-def ask_question(query: str, provider: str = "openai", save_history: bool = True) -> Tuple[str, Dict[str, Any]]:
+
+def ask_question(
+    query: str, provider: str = "openai", save_history: bool = True
+) -> Tuple[str, Dict[str, Any]]:
     """
     Ask a question and get comprehensive answer
-    
+
     Args:
         query: The question to ask
         provider: LLM provider ('openai' or 'groq')
         save_history: Whether to save interaction to history
-    
+
     Returns:
         Tuple of (answer, statistics)
     """
     start_time = time.time()
-    
+
     try:
         # Validate provider
         validate_provider(provider)
-        
+
         # Get retriever and LLM (cached after first call)
         retriever = get_retriever()
         llm = load_llm(provider)
-        
+
         retrieval_start = time.time()
         # Get comprehensive context
         docs = get_comprehensive_context(query, retriever)
         retrieval_time = time.time() - retrieval_start
-        
+
         # Process documents into organized context
         context, page_groups = process_documents_for_context(docs)
-        
+
         # Create chain and invoke
         prompt = create_prompt()
         parser = StrOutputParser()
         chain = prompt | llm | parser
-        
+
         llm_start = time.time()
         result = chain.invoke({"context": context, "question": query})
         llm_time = time.time() - llm_start
-        
+
         total_time = time.time() - start_time
-        
+
         # Performance stats
         stats = {
             "provider": provider.upper(),
@@ -111,15 +118,23 @@ def ask_question(query: str, provider: str = "openai", save_history: bool = True
             "llm_time": llm_time,
             "total_time": total_time,
             "success": True,
-            "error": None
+            "error": None,
         }
-        
+
         # Save to history if requested
         if save_history:
-            save_chat_history(query, result, provider, retrieval_time, llm_time, total_time, len(page_groups))
-        
+            save_chat_history(
+                query,
+                result,
+                provider,
+                retrieval_time,
+                llm_time,
+                total_time,
+                len(page_groups),
+            )
+
         return result, stats
-        
+
     except Exception as e:
         error_stats = {
             "provider": provider.upper(),
@@ -129,18 +144,21 @@ def ask_question(query: str, provider: str = "openai", save_history: bool = True
             "llm_time": 0,
             "total_time": time.time() - start_time,
             "success": False,
-            "error": str(e)
+            "error": str(e),
         }
         return f"Error: {str(e)}", error_stats
+
 
 def get_system_info() -> Dict[str, Any]:
     """Get information about the RAG system"""
     from llm_provider_manager import get_available_providers
+    from config import get_config
     import os
-    
+
+    cfg = get_config()
     return {
         "available_providers": get_available_providers(),
-        "vector_db_exists": os.path.exists("vectorDB/my_FAISS_db"),
-        "retriever_cached": os.path.exists("vectorDB/retriever.pkl"),
-        "chat_history_exists": os.path.exists("chat_history.json")
+        "vector_db_exists": os.path.exists(cfg.db_path),
+        "retriever_cached": os.path.exists(cfg.retriever_path),
+        "chat_history_exists": os.path.exists(cfg.chat_history_path),
     }

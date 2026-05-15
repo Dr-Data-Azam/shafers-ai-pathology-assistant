@@ -40,6 +40,8 @@ vectorDB/
 # Generated files
 chat_history.json
 *.log
+.coverage
+htmlcov/
 
 # IDE files
 .vscode/
