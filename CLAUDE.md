@@ -1,97 +1,127 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code working in the Shafer's AI Pathology Assistant repository.
 
 ## Project Overview
 
-RAG-based Q&A system for Shafer's Textbook of Oral Pathology (7th Edition). Answers oral pathology questions using semantic retrieval over the textbook + LLM generation. Supports OpenAI GPT-4o and Groq Llama 3.1 as interchangeable providers.
+RAG-based Q&A system for Shafer's Textbook of Oral Pathology (7th Edition). Answers oral
+pathology questions using semantic retrieval over the textbook + LLM generation. Supports
+OpenAI GPT-4o and Groq Llama 3.1 as interchangeable providers.
 
 ## Setup & Running
 
 **Prerequisites**: Python 3.13, uv package manager, `.env` with API keys (see `.env.example`)
+**Required env vars**: `OPENAI_API_KEY`, `GROQ_API_KEY`, `HUGGINGFACEHUB_ACCESS_TOKEN`
 
 ```bash
-# Install dependencies (use uv, not pip directly)
-uv sync
-
-# One-time: build vector database from PDF
-# Place Shafer's PDF in data/ directory first
-python vector_store_creator.py
-
-# Run web UI
-streamlit run streamlit_app.py
-
-# Run CLI
-python main_console.py
-
-# Test both providers
-python main_console.py test
+uv sync                          # install dependencies
+python vector_store_creator.py   # one-time: build FAISS index (place PDF in data/ first)
+streamlit run streamlit_app.py   # web UI
+python main_console.py           # CLI
+python main_console.py test      # test both providers
 ```
-
-**Environment variables required**: `OPENAI_API_KEY`, `GROQ_API_KEY`, `HUGGINGFACEHUB_ACCESS_TOKEN`
 
 ## Architecture
 
-Seven modules, functional style (no classes), global instance caching:
+Seven modules, functional style (no classes), module-level globals for singleton caching:
 
 ```
-streamlit_app.py        ← Web UI (main entry point)
+streamlit_app.py        ← Web UI; main entry point
 main_console.py         ← CLI alternative
-rag_system.py           ← Core RAG orchestration; ask_question() is the primary API
-llm_provider_manager.py ← OpenAI/Groq abstraction with lazy-initialized globals
-vector_retriever.py     ← FAISS retriever with MMR search + query expansion
+rag_system.py           ← RAG orchestration; ask_question() is the primary API
+llm_provider_manager.py ← OpenAI/Groq abstraction; _llm_openai/_llm_groq globals
+vector_retriever.py     ← FAISS MMR retrieval (k=12, λ=0.7) + query expansion
 vector_store_creator.py ← One-time PDF → FAISS pipeline
-chat_history_manager.py ← JSON-backed persistent history (last 100 interactions)
+chat_history_manager.py ← JSON-backed history, capped at 100 interactions
 ```
 
-**Data flow**: PDF → `vector_store_creator.py` → `vectorDB/my_FAISS_db` → `vector_retriever.py` (MMR, k=12, query expansion) → `rag_system.py` (adaptive prompt + LLM) → `chat_history_manager.py`
+**Data flow**: PDF → `vector_store_creator` → `vectorDB/my_FAISS_db` → `vector_retriever`
+→ `rag_system` (adaptive prompt + LLM) → `chat_history_manager`
 
-**Key paths (hardcoded)**:
-- `vectorDB/my_FAISS_db` — FAISS index (git-ignored)
-- `vectorDB/retriever.pkl` — cached retriever
-- `data/` — source PDFs (git-ignored)
-- `chat_history.json` — interaction log (git-ignored)
+**Key paths** (git-ignored): `vectorDB/my_FAISS_db`, `vectorDB/retriever.pkl`, `data/`, `chat_history.json`
 
-## LLM Providers
+**Provider abstraction**: Only `llm_provider_manager.py` imports LangChain provider packages.
+All other modules call `load_llm(provider)`. Temperature fixed at 0.3 — intentional for
+factual consistency, do not change without explicit instruction.
 
-`llm_provider_manager.py` holds module-level globals `_llm_openai` and `_llm_groq` initialized on first call to `load_llm()`. Temperature is fixed at 0.3. Both providers share the same retriever and prompt logic in `rag_system.py`.
-
-## Vector Retrieval
-
-`vector_retriever.py` uses FAISS with MMR (`lambda_mult=0.7` for diversity) and auto-generates related search terms via `generate_related_terms()` before retrieval. Retrieved docs are grouped by source page before being passed as context.
+**Retriever caching**: Delete `vectorDB/retriever.pkl` (not the index) to force re-init.
+Chunk size 500/overlap 50 is tuned for dense medical text — changing it requires a full rebuild.
 
 ## Coding Conventions
 
 - **Formatter**: Black, 88-character line length
-- **Linter**: Ruff (run `ruff check .` before committing)
-- **Style**: Functional — no classes unless unavoidable. Module-level globals for singletons, lazy-initialized on first use.
-- **Commit messages**: Imperative subject line (`Add X`, `Fix Y`, `Remove Z`), 72-char limit. Body optional.
-- **Branch naming**: `feature/<slug>`, `fix/<slug>`, `chore/<slug>`
-
-## Architecture Decisions
-
-- **Functional style**: Keeps each module a stateless set of functions; global caching (`_llm_openai`, `_llm_groq`, `_retriever`) achieves singleton behavior without class instantiation overhead.
-- **Provider abstraction**: `llm_provider_manager.py` is the only file that imports `langchain-openai` / `langchain-groq` directly. All other modules call `load_llm(provider)` so switching providers requires no changes outside that file.
-- **Retriever caching**: `vectorDB/retriever.pkl` persists the initialized retriever across Streamlit reruns. Delete this file (not the FAISS index) to force re-initialization without rebuilding embeddings.
-- **Chunk size (500 / overlap 50)**: Tuned for dense medical text. Changing these requires rebuilding the entire vector store.
+- **Linter**: Ruff — run before every commit
+- **Style**: Functional. No classes unless unavoidable. Lazy-initialized module-level globals.
+- **Commits**: `type(scope): description` — e.g. `feat(config): add Pydantic settings`
+- **Branches**: `feature/<slug>`, `fix/<slug>`, `chore/<slug>`
+- **Types**: All new/modified functions must have type hints on parameters and return values
 
 ## Permission Boundaries
 
 Never:
-- Modify or overwrite `.env` (contains live API keys)
-- Delete or overwrite `vectorDB/` (rebuilding embeddings is expensive and requires the PDF)
-- Push directly to `main` — use a feature branch and PR
-- Change `temperature` in `llm_provider_manager.py` without explicit instruction (0.3 is intentional for factual consistency)
+- Modify or overwrite `.env`
+- Delete or overwrite `vectorDB/` (expensive to rebuild, requires the PDF)
+- Push directly to `main` — always use a feature branch and PR
+- Change `temperature` without explicit instruction
 
-## Custom Commands
+## Spec-Driven Development Rule
 
-Project commands live in `.claude/commands/`. Currently none are defined — add `.md` files there to create slash commands available in this repo.
+**Never implement a feature without a spec.** Every feature starts with `/create-spec`.
+The spec lives in `specs/<feature-slug>/` before any code is written.
+
+## Feature Lifecycle
+
+```
+/create-spec <name>          → pulls main, creates branch, generates non-tech spec
+YOU: review + approve spec
+"create the tech spec"        → Plan Mode generates tech-spec.md, YOU approve
+"implement task 1"            → Claude Code builds; hooks auto-format + auto-lint
+/test                         → verify all tests pass
+"use the test-writer agent"   → writes tests for the new code
+"use the code-reviewer agent" → reviews the diff
+"use the security-reviewer"   → security check (on credential/input changes)
+/ship-feature "type(scope): description"  → commit, push, PR, merge, back to main
+```
+
+## Commands
+
+| Command | What It Does |
+|---------|-------------|
+| `/create-spec <name>` | Start a feature: pull main, create branch, generate non-tech spec |
+| `/ship-feature "message"` | End a feature: test → lint → commit → push → PR → merge → cleanup |
+| `/test` | Run pytest with coverage; report failures |
+| `/lint` | Check Black + Ruff; report issues without fixing |
+| `/fix` | Auto-fix all Black and Ruff issues |
+| `/eval [provider]` | Run RAG evaluation against golden question set; detect regressions |
+
+Full command logic: `.claude/commands/<command>.md`
+
+## Skills
+
+| Skill | Read By | Purpose |
+|-------|---------|---------|
+| `generate-non-tech-spec.md` | `/create-spec` | Questions to ask + non-tech spec template |
+| `generate-tech-spec.md` | Claude Code in Plan Mode | Tech spec template + task rules |
+| `write-test.md` | `test-writer` agent | Mock patterns, fixtures, coverage targets |
+| `rag-eval.md` | `/eval` | Golden questions, scoring rubric, report format |
+
+Full skill content: `.claude/skills/<skill>.md`
+
+## Agents
+
+| Agent | Invoke With | What It Does |
+|-------|------------|-------------|
+| `test-writer` | "use the test-writer agent" | Writes pytest tests; runs them; reports coverage |
+| `code-reviewer` | "use the code-reviewer agent" | Reviews diff vs tech spec; verdict: APPROVED / CHANGES REQUESTED |
+| `security-reviewer` | "use the security-reviewer agent" | Checks secrets, prompt injection, deps (pip-audit) |
+
+Full agent config: `.claude/agents/<agent>.md`
 
 ## Testing Conventions
 
-Tests go in `tests/`. Use **pytest**. Add `pytest` and `pytest-mock` to `pyproject.toml` dev dependencies before writing tests.
-
-- Test file naming: `test_<module>.py` (e.g., `test_rag_system.py`)
-- Fixture naming: descriptive nouns (`mock_retriever`, `sample_question`)
-- Mock LLM calls and FAISS lookups — never hit real APIs in tests
-- Integration tests that require the vector DB go in `tests/integration/` and are skipped in CI with `@pytest.mark.skipif`
+- Tests in `tests/`; file naming: `test_<module>.py`
+- Use `pytest`; never hit real APIs or FAISS — mock everything external
+- Use `tmp_path` for file I/O; `monkeypatch.setenv` for API keys
+- Always import modules inside test functions (after monkeypatching)
+- Integration tests in `tests/integration/` — skipped in CI with `@pytest.mark.skipif`
+- Full patterns and fixtures: `.claude/skills/write-test.md`
