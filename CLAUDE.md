@@ -60,6 +60,38 @@ chat_history_manager.py ← JSON-backed persistent history (last 100 interaction
 
 `vector_retriever.py` uses FAISS with MMR (`lambda_mult=0.7` for diversity) and auto-generates related search terms via `generate_related_terms()` before retrieval. Retrieved docs are grouped by source page before being passed as context.
 
-## No Tests or CI
+## Coding Conventions
 
-There is no test suite. Manual testing: `python main_console.py test` runs a sample question against both providers.
+- **Formatter**: Black, 88-character line length
+- **Linter**: Ruff (run `ruff check .` before committing)
+- **Style**: Functional — no classes unless unavoidable. Module-level globals for singletons, lazy-initialized on first use.
+- **Commit messages**: Imperative subject line (`Add X`, `Fix Y`, `Remove Z`), 72-char limit. Body optional.
+- **Branch naming**: `feature/<slug>`, `fix/<slug>`, `chore/<slug>`
+
+## Architecture Decisions
+
+- **Functional style**: Keeps each module a stateless set of functions; global caching (`_llm_openai`, `_llm_groq`, `_retriever`) achieves singleton behavior without class instantiation overhead.
+- **Provider abstraction**: `llm_provider_manager.py` is the only file that imports `langchain-openai` / `langchain-groq` directly. All other modules call `load_llm(provider)` so switching providers requires no changes outside that file.
+- **Retriever caching**: `vectorDB/retriever.pkl` persists the initialized retriever across Streamlit reruns. Delete this file (not the FAISS index) to force re-initialization without rebuilding embeddings.
+- **Chunk size (500 / overlap 50)**: Tuned for dense medical text. Changing these requires rebuilding the entire vector store.
+
+## Permission Boundaries
+
+Never:
+- Modify or overwrite `.env` (contains live API keys)
+- Delete or overwrite `vectorDB/` (rebuilding embeddings is expensive and requires the PDF)
+- Push directly to `main` — use a feature branch and PR
+- Change `temperature` in `llm_provider_manager.py` without explicit instruction (0.3 is intentional for factual consistency)
+
+## Custom Commands
+
+Project commands live in `.claude/commands/`. Currently none are defined — add `.md` files there to create slash commands available in this repo.
+
+## Testing Conventions
+
+Tests go in `tests/`. Use **pytest**. Add `pytest` and `pytest-mock` to `pyproject.toml` dev dependencies before writing tests.
+
+- Test file naming: `test_<module>.py` (e.g., `test_rag_system.py`)
+- Fixture naming: descriptive nouns (`mock_retriever`, `sample_question`)
+- Mock LLM calls and FAISS lookups — never hit real APIs in tests
+- Integration tests that require the vector DB go in `tests/integration/` and are skipped in CI with `@pytest.mark.skipif`
