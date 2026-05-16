@@ -299,27 +299,41 @@ def test_load_llm_invalid_provider_raises_exception(monkeypatch):
 @patch(
     "llm_provider_manager.ChatOpenAI", side_effect=RuntimeError("connection refused")
 )
-def test_load_llm_openai_construction_failure_is_wrapped(mock_chat_openai, monkeypatch):
-    """A ChatOpenAI constructor error is caught and re-raised as Exception with context."""
+def test_load_llm_openai_construction_failure_raises_llm_error(
+    mock_chat_openai, monkeypatch
+):
+    """A ChatOpenAI constructor error is caught and re-raised as LLMError."""
     monkeypatch.setenv("OPENAI_API_KEY", "sk-fail-openai")
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
 
     from llm_provider_manager import load_llm
+    from exceptions import LLMError
 
-    with pytest.raises(Exception, match="Failed to load OpenAI model"):
+    with pytest.raises(LLMError) as exc_info:
         load_llm("openai")
+
+    assert exc_info.value.provider == "openai"
+    # safe_msg falls back to type(e).__name__ for exceptions without .message
+    assert exc_info.value.message == "RuntimeError"
 
 
 @patch("llm_provider_manager.ChatGroq", side_effect=RuntimeError("groq unreachable"))
-def test_load_llm_groq_construction_failure_is_wrapped(mock_chat_groq, monkeypatch):
-    """A ChatGroq constructor error is caught and re-raised as Exception with context."""
+def test_load_llm_groq_construction_failure_raises_llm_error(
+    mock_chat_groq, monkeypatch
+):
+    """A ChatGroq constructor error is caught and re-raised as LLMError."""
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     monkeypatch.setenv("GROQ_API_KEY", "gsk-fail-groq")
 
     from llm_provider_manager import load_llm
+    from exceptions import LLMError
 
-    with pytest.raises(Exception, match="Failed to load Groq model"):
+    with pytest.raises(LLMError) as exc_info:
         load_llm("groq")
+
+    assert exc_info.value.provider == "groq"
+    # safe_msg falls back to type(e).__name__ for exceptions without .message
+    assert exc_info.value.message == "RuntimeError"
 
 
 # ---------------------------------------------------------------------------

@@ -71,10 +71,14 @@ and verifying it matches `branch_name`.
 ## Step 6 — Determine the spec number and create the spec directory
 
 List all existing numbered spec directories to find the next available number.
-Use Glob with pattern `specs/[0-9][0-9]-*` to list them, then extract the two-digit
-prefix from each name. Find the highest number in use; the next spec number is that
-value + 1, zero-padded to two digits (01, 02, ... 09, 10, 11, ...).
+Run `ls specs/` via Bash and filter for entries matching the pattern `NN-*` (two-digit
+prefix). Extract the two-digit prefix from each name, find the highest number in use,
+and set the next spec number to that value + 1, zero-padded to two digits
+(01, 02, ... 09, 10, 11, ...).
 If no numbered directories exist yet, start at 01.
+
+IMPORTANT: Always use Bash(`ls specs/`) — never use Glob — to detect existing spec
+directories. Glob does not reliably match directories on all platforms.
 
 Set `spec_dir_slug` = `NN-<feature_slug>`
 Example: feature_slug="llm-response-cache", next number=02 → spec_dir_slug="02-llm-response-cache"

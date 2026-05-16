@@ -23,7 +23,7 @@ python main_console.py test      # test both providers
 
 ## Architecture
 
-Seven modules, functional style (no classes), module-level globals for singleton caching:
+Eight modules, functional style (no classes), module-level globals for singleton caching:
 
 ```
 streamlit_app.py        ← Web UI; main entry point
@@ -33,12 +33,13 @@ llm_provider_manager.py ← OpenAI/Groq abstraction; _llm_openai/_llm_groq globa
 vector_retriever.py     ← FAISS MMR retrieval (k=12, λ=0.7) + query expansion
 vector_store_creator.py ← One-time PDF → FAISS pipeline
 chat_history_manager.py ← JSON-backed history, capped at 100 interactions
+exceptions.py           ← Typed exception hierarchy: PathologyAppError, LLMError, RetrieverError, ConfigError
 ```
 
 **Data flow**: PDF → `vector_store_creator` → `vectorDB/my_FAISS_db` → `vector_retriever`
 → `rag_system` (adaptive prompt + LLM) → `chat_history_manager`
 
-**Key paths** (git-ignored): `vectorDB/my_FAISS_db`, `vectorDB/retriever.pkl`, `data/`, `chat_history.json`
+**Key paths** (git-ignored): `vectorDB/my_FAISS_db`, `vectorDB/retriever.pkl`, `data/`, `chat_history.json`, `app.log`
 
 **Provider abstraction**: Only `llm_provider_manager.py` imports LangChain provider packages.
 All other modules call `load_llm(provider)`. Temperature fixed at 0.3 — intentional for
@@ -46,6 +47,18 @@ factual consistency, do not change without explicit instruction.
 
 **Retriever caching**: Delete `vectorDB/retriever.pkl` (not the index) to force re-init.
 Chunk size 500/overlap 50 is tuned for dense medical text — changing it requires a full rebuild.
+
+**Logging**: Structured logging via Python `logging` module. Each module gets
+`logger = logging.getLogger(__name__)`. Logging is initialised by `configure_logging(get_config())`
+called at startup in `streamlit_app.py` and `main_console.py`. Logs go to `app.log`
+(rotating, 10 MB / 3 backups) and stderr. Level is controlled by the `LOG_LEVEL` env var
+(default `INFO`); log file path by `LOG_FILE` (default `app.log`).
+
+**Error handling**: Use typed exceptions from `exceptions.py` — never raise bare `Exception`
+or return error strings. Never use `print()` for errors; use `logger.error()/warning()`.
+- LLM failures → `LLMError(provider, message)`
+- FAISS retrieval failures → `RetrieverError(message)`
+- Missing/invalid config → `ConfigError(message)`
 
 ## Coding Conventions
 

@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+import logging
+import logging.handlers
+import os
+import sys
 from functools import lru_cache
 from typing import Optional
 
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from exceptions import ConfigError
 
 
 class AppConfig(BaseSettings):
@@ -45,10 +51,14 @@ class AppConfig(BaseSettings):
     chunk_size: int = 500
     chunk_overlap: int = 50
 
+    # Logging
+    log_level: str = "INFO"
+    log_file: str = "app.log"
+
     @model_validator(mode="after")
     def require_at_least_one_llm_key(self) -> "AppConfig":
         if not self.openai_api_key and not self.groq_api_key:
-            raise ValueError(
+            raise ConfigError(
                 "At least one of OPENAI_API_KEY or GROQ_API_KEY must be set in the .env file"
             )
         return self
@@ -57,3 +67,25 @@ class AppConfig(BaseSettings):
 @lru_cache(maxsize=1)
 def get_config() -> AppConfig:
     return AppConfig()
+
+
+def configure_logging(cfg: AppConfig) -> None:
+    """Set up root logger with a rotating file handler and a stderr handler."""
+    level = getattr(logging, cfg.log_level.upper(), logging.INFO)
+    fmt = logging.Formatter("%(asctime)s | %(name)s | %(levelname)s | %(message)s")
+
+    file_handler = logging.handlers.RotatingFileHandler(
+        cfg.log_file, maxBytes=10 * 1024 * 1024, backupCount=3, encoding="utf-8"
+    )
+    file_handler.setFormatter(fmt)
+    os.chmod(cfg.log_file, 0o600)
+
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setFormatter(fmt)
+
+    root = logging.getLogger()
+    if root.handlers:
+        return
+    root.setLevel(level)
+    root.addHandler(file_handler)
+    root.addHandler(stderr_handler)

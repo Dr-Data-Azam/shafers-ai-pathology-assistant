@@ -3,12 +3,18 @@
 Console interface for Shafer's Oral Pathology RAG System
 """
 
+import logging
+import sys
 import time
 from datetime import datetime
 
-from rag_system import ask_question, get_system_info
+from chat_history_manager import clear_chat_history, load_chat_history
+from config import configure_logging, get_config
+from exceptions import ConfigError, LLMError, RetrieverError
 from llm_provider_manager import get_available_providers
-from chat_history_manager import load_chat_history, clear_chat_history
+from rag_system import ask_question, get_system_info
+
+logger = logging.getLogger(__name__)
 
 
 def print_system_status():
@@ -170,8 +176,17 @@ def interactive_chat():
                 f"{stats['total_time']:.1f}s | {stats['pages_retrieved']} pages | {stats['provider']}"
             )
 
-        except Exception as e:
-            print(f"Error: {str(e)}")
+        except LLMError as e:
+            logger.error("LLMError: %s", e)
+            print(f"AI provider error: {e.message}. Try switching providers.")
+        except RetrieverError as e:
+            logger.error("RetrieverError: %s", e)
+            print("Retriever error: could not search the textbook. Exiting.")
+            break
+        except ConfigError as e:
+            logger.error("ConfigError: %s", e)
+            print(f"Configuration error: {e.message}")
+            break
 
 
 def test_both_providers():
@@ -198,12 +213,23 @@ def test_both_providers():
             )
             print(f"Answer preview: {answer[:200]}...")
 
-        except Exception as e:
-            print(f"{provider.upper()} failed: {str(e)}")
+        except LLMError as e:
+            logger.error("LLMError testing %s: %s", provider, e)
+            print(f"{provider.upper()} failed (LLM error): {e.message}")
+        except RetrieverError as e:
+            logger.error("RetrieverError testing %s: %s", provider, e)
+            print(f"{provider.upper()} failed (retriever error): {e.message}")
+        except ConfigError as e:
+            logger.error("ConfigError testing %s: %s", provider, e)
+            print(f"{provider.upper()} failed (config error): {e.message}")
 
 
 if __name__ == "__main__":
-    import sys
+    try:
+        configure_logging(get_config())
+    except ConfigError as e:
+        print(f"Configuration error: {e.message}", file=sys.stderr)
+        sys.exit(1)
 
     if len(sys.argv) > 1 and sys.argv[1] == "test":
         test_both_providers()

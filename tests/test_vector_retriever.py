@@ -219,6 +219,8 @@ def test_get_retriever_raises_when_db_missing(monkeypatch):
 
     monkeypatch.setattr(vector_retriever, "get_config", lambda: _make_config())
 
+    from exceptions import RetrieverError
+
     with patch("vector_retriever.os.path.exists", return_value=False):
-        with pytest.raises(FileNotFoundError):
+        with pytest.raises(RetrieverError):
             vector_retriever.get_retriever()

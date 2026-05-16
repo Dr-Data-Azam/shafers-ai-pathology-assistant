@@ -1,13 +1,17 @@
 # File: vector_retriever.py
+import logging
 import os
 import pickle
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from langchain_community.vectorstores import FAISS
 from langchain_core.vectorstores import VectorStoreRetriever
 
 from config import get_config
+from exceptions import RetrieverError
 from vector_store_creator import get_embedding_model
+
+logger = logging.getLogger(__name__)
 
 # Global cache for retriever
 _retriever = None
@@ -24,7 +28,7 @@ def get_retriever() -> VectorStoreRetriever:
     retriever_path = cfg.retriever_path
 
     if not os.path.exists(db_path):
-        raise FileNotFoundError(
+        raise RetrieverError(
             "Vector DB not found. Please run vector_store_creator.py first."
         )
 
@@ -33,7 +37,7 @@ def get_retriever() -> VectorStoreRetriever:
             _retriever = pickle.load(f)
             return _retriever
 
-    print("Loading vector database...")
+    logger.info("Loading vector database from %s", db_path)
     db = FAISS.load_local(
         folder_path=db_path,
         embeddings=get_embedding_model(),
@@ -104,7 +108,7 @@ def get_comprehensive_context(query: str, retriever) -> List[Any]:
                     all_docs.append(doc)
                     seen_content.add(doc_id)
         except Exception as e:
-            print(f"Error searching for term '{term}': {e}")
+            logger.warning("Error searching for term '%s': %s", term, e)
             continue
 
     return all_docs
