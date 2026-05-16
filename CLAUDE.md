@@ -13,12 +13,19 @@ OpenAI GPT-4o and Groq Llama 3.1 as interchangeable providers.
 **Prerequisites**: Python 3.13, uv package manager, `.env` with API keys (see `.env.example`)
 **Required env vars**: `OPENAI_API_KEY`, `GROQ_API_KEY`, `HUGGINGFACEHUB_ACCESS_TOKEN`
 
+**Local (uv):**
 ```bash
 uv sync                          # install dependencies
 python vector_store_creator.py   # one-time: build FAISS index (place PDF in data/ first)
 streamlit run streamlit_app.py   # web UI
 python main_console.py           # CLI
 python main_console.py test      # test both providers
+```
+
+**Docker (single-command):**
+```bash
+docker compose --profile build run --rm vector-builder  # one-time: build FAISS index (place PDF in data/ first)
+docker compose up                                        # web UI at http://localhost:8501
 ```
 
 ## Architecture
@@ -40,6 +47,10 @@ exceptions.py           ← Typed exception hierarchy: PathologyAppError, LLMErr
 → `rag_system` (adaptive prompt + LLM) → `chat_history_manager`
 
 **Key paths** (git-ignored): `vectorDB/my_FAISS_db`, `vectorDB/retriever.pkl`, `data/`, `chat_history.json`, `app.log`
+
+**Docker volume**: In containerized runs the FAISS index lives in the `vectordb` named Docker
+volume (mounted at `/app/vectorDB`), not a local directory. Do not delete this volume —
+rebuilding requires the source PDF.
 
 **Provider abstraction**: Only `llm_provider_manager.py` imports LangChain provider packages.
 All other modules call `load_llm(provider)`. Temperature fixed at 0.3 — intentional for
@@ -74,8 +85,11 @@ or return error strings. Never use `print()` for errors; use `logger.error()/war
 Never:
 - Modify or overwrite `.env`
 - Delete or overwrite `vectorDB/` (expensive to rebuild, requires the PDF)
+- Delete the `vectordb` Docker named volume (same reason as above)
 - Push directly to `main` — always use a feature branch and PR
 - Change `temperature` without explicit instruction
+- Edit `.dockerignore` in a way that allows `.env` or `vectorDB/` into the build context
+- Remove the `USER appuser` instruction or `--uid 1000` from the Dockerfile (security requirement)
 
 ## Spec-Driven Development Rule
 

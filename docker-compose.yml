@@ -1,0 +1,50 @@
+services:
+
+  # ── Main application ────────────────────────────────────────────────────────
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    # API keys and other secrets are read from the host .env file and injected
+    # as environment variables — the file is never copied into the image.
+    env_file:
+      - .env
+    volumes:
+      # Named volume so the FAISS index survives container restarts and rebuilds
+      - vectordb:/app/vectorDB
+    healthcheck:
+      test:
+        - "CMD"
+        - "python"
+        - "-c"
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    restart: unless-stopped
+
+
+  # ── One-off vector store builder ────────────────────────────────────────────
+  # This service is intentionally excluded from the default `docker compose up`.
+  # Run it explicitly when you need to (re)build the FAISS index from the PDF:
+  #
+  #   docker compose --profile build run --rm vector-builder
+  #
+  # Prerequisites: place the textbook PDF in ./data/ before running.
+  vector-builder:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - vectordb:/app/vectorDB
+      # Source PDF is mounted read-only — the builder writes only to vectorDB/
+      - ./data:/app/data:ro
+    command: python vector_store_creator.py
+    profiles:
+      - build
+
+
+volumes:
+  # Persists the FAISS index and retriever pickle across container lifecycle events
+  vectordb:

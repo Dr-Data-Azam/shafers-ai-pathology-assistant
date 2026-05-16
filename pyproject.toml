@@ -45,6 +45,7 @@ omit = [
     "vector_store_creator.py",
     "streamlit_app.py",
     "tests/conftest.py",
+    "tests/test_docker_config.py",
 ]
 
 [tool.coverage.report]

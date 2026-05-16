@@ -115,11 +115,20 @@ If coverage for the module is below target, name the untested functions.
 
 Then save a persistent record:
 
+Find the spec directory using this two-step approach:
+
+**Step A — try the branch name first:**
 Run `git branch --show-current`. If the branch starts with `feature/`, extract
-the slug (e.g. `feature/config-refactor` → `config-refactor`). Find the spec
-directory using Glob with pattern `specs/*<slug>` (e.g. `specs/*config-refactor`).
-This matches both numbered directories like `specs/01-config-refactor/` and plain
-ones like `specs/config-refactor/`. Use the first match as `spec_dir`.
+the slug (e.g. `feature/config-refactor` → `config-refactor`). Use Glob with
+pattern `specs/*<slug>` (e.g. `specs/*config-refactor`) to find the directory.
+
+**Step B — fallback if Step A fails or returns `main`:**
+If `git branch --show-current` returns `main`, an empty string, or the Glob
+finds no match, use Bash to run `ls -dt specs/*/` and pick the most recently
+modified directory that contains a `tech-spec.md` file. This is the active
+feature spec directory.
+
+Use the first match from whichever step succeeds as `spec_dir`.
 
 If a spec directory is found, write `<spec_dir>/test-report.md` using this format:
 

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import ast; print\\('yaml available'\\)\")",
+      "Bash(python -m pytest tests/test_docker_config.py --collect-only -q)"
+    ]
+  }
+}
