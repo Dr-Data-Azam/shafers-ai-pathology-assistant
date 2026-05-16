@@ -1,0 +1,46 @@
+# Secrets — never bake into the image
+.env
+.env.*
+
+# Virtual environment — deps are installed fresh in the builder stage
+.venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Large generated artifacts — vectorDB is mounted as a volume at runtime
+vectorDB/
+*.pkl
+
+# Source data — PDF is only needed for the vector-builder service (bind-mounted)
+data/
+
+# Runtime-generated files
+chat_history.json
+*.log
+app.log
+
+# Version control
+.git/
+.gitattributes
+.gitignore
+
+# CI/CD
+.github/
+
+# Dev and test artifacts
+tests/
+specs/
+infrastructure/
+.coverage
+htmlcov/
+.pytest_cache/
+.ruff_cache/
+
+# Local tooling config
+.python-version
+.vscode/
+.idea/
