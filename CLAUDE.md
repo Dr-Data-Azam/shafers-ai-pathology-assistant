@@ -80,8 +80,19 @@ YOU: review + approve spec
 "use the test-writer agent"   → writes tests for the new code
 "use the code-reviewer agent" → reviews the diff
 "use the security-reviewer"   → security check (on credential/input changes)
+write implementation summary  → save specs/<slug>/implementation-summary.md
 /ship-feature "type(scope): description"  → commit, push, PR, merge, back to main
 ```
+
+### Implementation Summary
+
+After all reviews pass and before `/ship-feature`, write `specs/<spec-dir>/implementation-summary.md`.
+It must include:
+- Tasks completed (checklist from tech spec)
+- Files created and modified (with row-per-file table)
+- Test results (pass count, duration, coverage per module)
+- Key implementation decisions (non-obvious choices made during build)
+- Deviations from the tech spec (anything that changed from the approved plan)
 
 ## Commands
 
