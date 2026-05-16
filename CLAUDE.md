@@ -80,6 +80,24 @@ or return error strings. Never use `print()` for errors; use `logger.error()/war
 - **Branches**: `feature/<slug>`, `fix/<slug>`, `chore/<slug>`
 - **Types**: All new/modified functions must have type hints on parameters and return values
 
+## CI/CD
+
+GitHub Actions run automatically on every PR and on merge to `main`.
+
+**On every pull request targeting `main`** (three parallel jobs — each blocks merging if it fails):
+- `Lint (Black + Ruff)` — formatting and linting checks
+- `Test (pytest + coverage)` — full test suite with 75% coverage threshold
+- `Security (pip-audit)` — vulnerability scan of runtime dependencies
+
+**On merge to `main`**:
+- `Docker Build` — builds the Docker image (no push to any registry)
+
+Branch protection enforces all three PR checks as required status checks. See
+`specs/05-ci-cd/branch-protection.md` for the one-time GitHub Settings setup.
+
+The local `/test` and `/lint` commands replicate what CI checks — run them before
+pushing to catch failures early.
+
 ## Permission Boundaries
 
 Never:
@@ -90,6 +108,7 @@ Never:
 - Change `temperature` without explicit instruction
 - Edit `.dockerignore` in a way that allows `.env` or `vectorDB/` into the build context
 - Remove the `USER appuser` instruction or `--uid 1000` from the Dockerfile (security requirement)
+- Modify or disable `.github/workflows/` files without explicit instruction (CI gates protect main)
 
 ## Spec-Driven Development Rule
 
