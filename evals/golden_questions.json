@@ -1,0 +1,215 @@
+[
+  {
+    "id": 1,
+    "category": "Definition",
+    "question": "What is leukoplakia?",
+    "expected_key_points": [
+      "white patch",
+      "cannot be scraped off",
+      "pre-malignant potential"
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Definition",
+    "question": "Define ameloblastoma.",
+    "expected_key_points": [
+      "benign but locally aggressive",
+      "odontogenic tumor",
+      "enamel organ epithelium"
+    ]
+  },
+  {
+    "id": 3,
+    "category": "Definition",
+    "question": "What is periapical granuloma?",
+    "expected_key_points": [
+      "chronic inflammatory lesion",
+      "root apex",
+      "granulation tissue replacing bone"
+    ]
+  },
+  {
+    "id": 4,
+    "category": "Definition",
+    "question": "Define oral submucous fibrosis.",
+    "expected_key_points": [
+      "chronic fibrotic disease",
+      "areca nut/betel quid",
+      "pre-malignant"
+    ]
+  },
+  {
+    "id": 5,
+    "category": "Definition",
+    "question": "What is a dentigerous cyst?",
+    "expected_key_points": [
+      "odontogenic cyst",
+      "crown of unerupted tooth",
+      "most common developmental cyst"
+    ]
+  },
+  {
+    "id": 6,
+    "category": "Classification",
+    "question": "Classify odontogenic cysts.",
+    "expected_key_points": [
+      "developmental",
+      "inflammatory",
+      "dentigerous",
+      "odontogenic keratocyst",
+      "periapical",
+      "residual"
+    ]
+  },
+  {
+    "id": 7,
+    "category": "Classification",
+    "question": "What are the types of ameloblastoma?",
+    "expected_key_points": [
+      "solid/multicystic",
+      "unicystic",
+      "peripheral/extraosseous"
+    ]
+  },
+  {
+    "id": 8,
+    "category": "Classification",
+    "question": "List the pre-malignant conditions of the oral cavity.",
+    "expected_key_points": [
+      "leukoplakia",
+      "erythroplakia",
+      "oral submucous fibrosis",
+      "lichen planus"
+    ]
+  },
+  {
+    "id": 9,
+    "category": "Classification",
+    "question": "Classify salivary gland tumors.",
+    "expected_key_points": [
+      "pleomorphic adenoma",
+      "Warthin's tumor",
+      "mucoepidermoid carcinoma",
+      "adenoid cystic carcinoma"
+    ]
+  },
+  {
+    "id": 10,
+    "category": "Classification",
+    "question": "What are the types of fibro-osseous lesions?",
+    "expected_key_points": [
+      "fibrous dysplasia",
+      "ossifying fibroma",
+      "cemento-ossifying fibroma",
+      "central giant cell lesion"
+    ]
+  },
+  {
+    "id": 11,
+    "category": "Clinical Features",
+    "question": "Describe the clinical features of oral squamous cell carcinoma.",
+    "expected_key_points": [
+      "ulcer with raised everted edges",
+      "induration",
+      "cervical lymphadenopathy",
+      "floor of mouth",
+      "lateral tongue"
+    ]
+  },
+  {
+    "id": 12,
+    "category": "Clinical Features",
+    "question": "What are the histological features of pleomorphic adenoma?",
+    "expected_key_points": [
+      "mixed epithelial and mesenchymal elements",
+      "myxoid/chondroid stroma",
+      "encapsulated"
+    ]
+  },
+  {
+    "id": 13,
+    "category": "Clinical Features",
+    "question": "Describe the clinical presentation of geographic tongue.",
+    "expected_key_points": [
+      "erythematous patches",
+      "white serpentine borders",
+      "migratory",
+      "asymptomatic"
+    ]
+  },
+  {
+    "id": 14,
+    "category": "Clinical Features",
+    "question": "What are the features of Sjogren's syndrome?",
+    "expected_key_points": [
+      "xerostomia",
+      "xerophthalmia",
+      "autoimmune",
+      "anti-SSA/SSB antibodies"
+    ]
+  },
+  {
+    "id": 15,
+    "category": "Clinical Features",
+    "question": "Describe the radiographic features of ameloblastoma.",
+    "expected_key_points": [
+      "multilocular radiolucency",
+      "soap bubble appearance",
+      "root resorption",
+      "mandible predominance"
+    ]
+  },
+  {
+    "id": 16,
+    "category": "Comparison",
+    "question": "What is the difference between leukoplakia and lichen planus?",
+    "expected_key_points": [
+      "leukoplakia idiopathic white patch",
+      "lichen planus autoimmune",
+      "Wickham's striae",
+      "lichen planus bilateral"
+    ]
+  },
+  {
+    "id": 17,
+    "category": "Comparison",
+    "question": "Differentiate periapical granuloma from periapical cyst.",
+    "expected_key_points": [
+      "granuloma has no epithelial lining",
+      "cyst lined by epithelium",
+      "both at root apex"
+    ]
+  },
+  {
+    "id": 18,
+    "category": "Comparison",
+    "question": "Compare pleomorphic adenoma and mucoepidermoid carcinoma.",
+    "expected_key_points": [
+      "pleomorphic adenoma benign",
+      "mucoepidermoid carcinoma malignant",
+      "mucous and epidermoid cells in MEC"
+    ]
+  },
+  {
+    "id": 19,
+    "category": "Edge Cases",
+    "question": "What causes white sponge nevus?",
+    "expected_key_points": [
+      "autosomal dominant",
+      "keratin 4 or 13 mutation",
+      "bilateral white folded mucosa"
+    ]
+  },
+  {
+    "id": 20,
+    "category": "Edge Cases",
+    "question": "Describe the management of odontogenic keratocyst.",
+    "expected_key_points": [
+      "high recurrence rate",
+      "enucleation",
+      "resection",
+      "Carnoy's solution"
+    ]
+  }
+]

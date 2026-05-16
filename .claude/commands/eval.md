@@ -1,7 +1,7 @@
 ---
 description: Run the RAG evaluation suite against the golden question set and generate a quality report
 argument-hint: "optional: provider to use e.g. openai or groq (defaults to openai)"
-allowed-tools: Read, Write, Bash(python:*), Glob
+allowed-tools: Read, Bash(python:*)
 ---
 
 You are evaluating the answer quality of the Shafer's AI Pathology Assistant RAG pipeline.
@@ -12,82 +12,49 @@ User input: $ARGUMENTS
 
 Read: `.claude/skills/rag-eval.md`
 
-This skill contains the full golden question set (20 questions), the scoring rubric,
-and the report format. Follow it for all subsequent steps.
+This skill contains the full golden question set, the scoring rubric, and the report
+format. Use it as reference when interpreting the results in Step 4.
 
 ## Step 2 — Determine provider
 
 If $ARGUMENTS contains "groq", use provider="groq".
 Otherwise default to provider="openai".
 
-Check that the required API key is set:
-- openai → OPENAI_API_KEY must be in .env
-- groq → GROQ_API_KEY must be in .env
+## Step 3 — Check API keys
 
-If the key is missing, STOP and say:
-"The <PROVIDER>_API_KEY is not set in .env. Please add it before running evaluation."
+The judge always uses OpenAI GPT-4o regardless of the generation provider.
+Both keys may be required depending on the provider chosen.
 
-## Step 3 — Check for previous results
+Check that these keys are set in .env:
+- `OPENAI_API_KEY` — **always required** (used by the judge LLM)
+- `GROQ_API_KEY` — required only when provider="groq"
 
-Look for any file matching: `eval_results_*.json`
-If one exists, load it as the "previous run" for regression comparison in Step 6.
-If none exists, note that this is the first evaluation run (no regression comparison possible).
+If `OPENAI_API_KEY` is missing, STOP and say:
+"OPENAI_API_KEY is not set in .env. It is required for the evaluation judge even when
+using Groq for generation. Please add it before running evaluation."
 
-## Step 4 — Run evaluation
+If provider="groq" and `GROQ_API_KEY` is missing, STOP and say:
+"GROQ_API_KEY is not set in .env. Please add it before running evaluation with Groq."
 
-For each of the 20 questions in the golden question set (from the skill):
+## Step 4 — Run the evaluation
 
-```python
-from rag_system import ask_question
+Run the evaluation pipeline via the CLI:
 
-results = []
-for question in golden_questions:
-    answer, stats = ask_question(question["question"], provider=provider, save_history=False)
-    results.append({
-        "id": question["id"],
-        "question": question["question"],
-        "answer": answer,
-        "expected_key_points": question["expected_key_points"],
-        "stats": stats
-    })
+```
+python eval_runner.py --provider <provider>
 ```
 
-Show progress to the coder: "Evaluating question X of 20..."
+The script handles everything: loading the golden question set, running each question
+through the RAG pipeline, scoring answers with the OpenAI judge, detecting regressions
+against any previous `eval_results_*.json`, and saving the dated JSON results and
+markdown report to the project root.
 
-## Step 5 — Score each answer with LLM-as-judge
+Progress is logged to `app.log`. The script prints the summary to stdout when complete.
 
-For each result, send the scoring prompt defined in the rag-eval skill to the LLM.
-Score faithfulness, relevance, and completeness on a 1-5 scale each.
-Calculate overall as the average of the three dimensions.
+## Step 5 — Report summary to the user
 
-## Step 6 — Detect regressions
+Read the stdout output from Step 4 and relay it to the user in this exact format:
 
-If a previous eval_results file was found in Step 3:
-- Compare overall score for each question
-- Flag any question where the overall score dropped by more than 0.5
-- Flag any question where any single dimension dropped below 2.0
-
-## Step 7 — Save results
-
-Save full results to: `eval_results_<YYYY-MM-DD>.json`
-
-Format:
-```json
-{
-  "date": "<YYYY-MM-DD>",
-  "provider": "<provider>",
-  "questions": [...results with scores...]
-}
-```
-
-## Step 8 — Generate and save the report
-
-Generate the markdown report as defined in the rag-eval skill.
-Save it to: `eval_report_<YYYY-MM-DD>.md`
-
-## Step 9 — Report summary to the user
-
-Print this exact format:
 ```
 Evaluation complete
 Provider:         <provider>
@@ -101,8 +68,11 @@ Regressions:      <count, or "none">
 Report saved:     eval_report_<YYYY-MM-DD>.md
 ```
 
-Then:
-- If pass rate >= 80%: "Quality target met. Safe to ship."
-- If pass rate 60-79%: "Below 80% target. Review the report before shipping."
-- If pass rate < 60%: "QUALITY ALERT: Pass rate is critically low. Do not ship RAG changes until resolved."
-- If regressions found: List each regressed question by ID and show the score drop.
+Then add a verdict line based on the pass rate:
+- pass rate >= 80%: "Quality target met. Safe to ship."
+- pass rate 60–79%: "Below 80% target. Review the report before shipping."
+- pass rate < 60%: "QUALITY ALERT: Pass rate is critically low. Do not ship RAG changes until resolved."
+
+If regressions > 0, also say:
+"Regressions detected. Review eval_report_<YYYY-MM-DD>.md for per-question details
+before shipping any RAG-related changes."

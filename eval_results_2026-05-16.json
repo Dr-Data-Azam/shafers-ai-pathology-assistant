@@ -1,0 +1,388 @@
+{
+  "date": "2026-05-16",
+  "provider": "openai",
+  "summary": {
+    "questions_evaluated": 20,
+    "avg_faithfulness": 3.35,
+    "avg_relevance": 4.3,
+    "avg_completeness": 3.7,
+    "overall_avg": 3.78,
+    "pass_rate": 60.0,
+    "fail_count": 0
+  },
+  "questions": [
+    {
+      "id": 1,
+      "category": "Definition",
+      "question": "What is leukoplakia?",
+      "answer": "Leukoplakia is a clinical term used to describe a white patch or plaque that cannot be characterized clinically or pathologically as any other disease. It is primarily an exclusion diagnosis, meaning it is identified by ruling out other definable white lesions. Here is a comprehensive overview based on the provided excerpts from Shafer's Oral Pathology:\n\n### Definition and Overview:\n- **Leukoplakia** is a white lesion that is localized, hyperkeratotic in nature, and white in appearance due to the hyperkeratinization of the mucosal surface (p. 94). It is not a specific disease entity but a clinical descriptor for a variety of lesions with different histopathological features.\n\n### Etiology and Pathogenesis:\n- Leukoplakia is considered an adaptive response of the mucosa to noxious stimuli, such as mechanical, chemical, or galvanic irritation, leading to hyperkeratinization (p. 94).\n\n### Clinical Features:\n- Leukoplakia can appear as a homogeneous white patch or plaque. In some cases, it may be interspersed with patches of erythroplakia or present as granular or speckled (p. 680).\n\n### Diagnosis:\n- The diagnosis of leukoplakia is mainly clinical, based on exclusion criteria. It involves ruling out other white lesions such as lichen planus, chronic cheek-bite, frictional keratosis, tobacco-induced keratosis, leukoedema, and white sponge nevus (p. 94).\n- A biopsy is often performed to obtain a histological diagnosis, which may replace the clinical term leukoplakia with a specific diagnosis (p. 94).\n\n### Clinical Significance:\n- Leukoplakia is considered a potentially malignant lesion, meaning it has the potential to undergo malignant transformation. However, the risk varies with different clinical subtypes and histopathological features (p. 680).\n\n### Conclusion:\nLeukoplakia is a significant clinical finding due to its potential for malignant transformation. It requires careful evaluation and often histological examination to rule out other conditions and assess the risk of malignancy.",
+      "expected_key_points": [
+        "white patch",
+        "cannot be scraped off",
+        "pre-malignant potential"
+      ],
+      "faithfulness": 4,
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness_reason": "Most claims are supported by the context, but some details like specific page numbers are not directly verifiable.",
+      "relevance_reason": "The answer directly addresses the question about leukoplakia, including its definition, diagnosis, and clinical significance.",
+      "completeness_reason": "The answer includes all expected key points: white patch, cannot be scraped off, and pre-malignant potential.",
+      "overall": 4.67
+    },
+    {
+      "id": 2,
+      "category": "Definition",
+      "question": "Define ameloblastoma.",
+      "answer": "Ameloblastoma is a benign, but locally aggressive odontogenic tumor that arises from the epithelial tissue involved in tooth development. It is characterized by its slow growth and potential to cause significant jaw expansion. The term \"ameloblastoma\" was suggested by Churchill in 1934 to replace \"adamantinoma,\" as the latter implies the formation of hard tissue, which is not present in this lesion. Ameloblastomas are typically found in the mandible of young adults, with an average age of presentation at 30 years. Histologically, ameloblastoma can present in various subtypes, including follicular, plexiform, acanthomatous, and granular forms. It is important to distinguish between peripheral and intraosseous ameloblastomas, as the peripheral type is less invasive and has a lower recurrence rate. Treatment usually involves surgical excision, and long-term follow-up is necessary due to the potential for recurrence. (Referenced from the provided excerpts)",
+      "expected_key_points": [
+        "benign but locally aggressive",
+        "odontogenic tumor",
+        "enamel organ epithelium"
+      ],
+      "faithfulness": 3,
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness_reason": "Some claims, such as the historical naming and specific histological subtypes, are not directly supported by the retrieved context.",
+      "relevance_reason": "The answer directly addresses the question by defining ameloblastoma and providing relevant details.",
+      "completeness_reason": "The answer includes all expected key points: benign but locally aggressive, odontogenic tumor, and enamel organ epithelium.",
+      "overall": 4.33
+    },
+    {
+      "id": 3,
+      "category": "Definition",
+      "question": "What is periapical granuloma?",
+      "answer": "**Periapical Granuloma**\n\n**Overview:**\nPeriapical granuloma is a localized mass of chronic granulation tissue that forms in response to infection at the apex of a tooth root. It is a common sequela of pulpal necrosis and is considered an inflammatory lesion. Despite its name, it does not exhibit true granulomatous inflammation microscopically (Page 485).\n\n**Etiology and Pathogenesis:**\n- The condition typically arises due to pulpal necrosis following caries or traumatic injury, leading to an inflammatory response at the tooth apex (Page 485).\n- It is characterized by the destruction of bone and replacement by granulation tissue (Page 485).\n- The lesion may eventually develop into a periapical cyst if the inflammatory reaction persists and stimulates epithelial proliferation (Page 485).\n\n**Histologic Features:**\n- The periapical granuloma shows a delicate fibrillar stroma with intense lymphocytic and plasma cell infiltration, sometimes accompanied by polymorphonuclear leukocytes and small capillaries (Page 485).\n- Collections of macrophages filled with lipoid material and cholesterol slits may be present (Page 485).\n- The lesion is usually surrounded by a connective tissue capsule (Page 485).\n\n**Clinical Features:**\n- Periapical granulomas are often asymptomatic and are usually discovered incidentally during radiographic surveys (Page 485).\n- They seldom present severe clinical features unless there is an acute exacerbation, which might lead to the formation of a fistulous tract (Page 485).\n\n**Radiographic Features:**\n- The earliest radiographic change is the thickening of the periodontal ligament (Page 485).\n- The lesion appears as a diffuse radiolucency at the apex of the affected tooth (Page 485).\n\n**Significance:**\n- Although often asymptomatic, periapical granulomas can lead to further complications if left untreated, such as the formation of a periapical cyst (Page 485).\n- Understanding the nature of periapical granulomas is crucial for accurate diagnosis and management in dental practice.\n\nBased on the available excerpts, this is a comprehensive overview of periapical granuloma. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "chronic inflammatory lesion",
+        "root apex",
+        "granulation tissue replacing bone"
+      ],
+      "faithfulness": 4,
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness_reason": "Most claims are supported by the retrieved context, but some details like 'giant-cell hyaline angiopathy' are not directly mentioned.",
+      "relevance_reason": "The answer directly addresses the question about periapical granuloma, focusing on its nature and characteristics.",
+      "completeness_reason": "The answer includes all expected key points: chronic inflammatory lesion, root apex, and granulation tissue replacing bone.",
+      "overall": 4.67
+    },
+    {
+      "id": 4,
+      "category": "Definition",
+      "question": "Define oral submucous fibrosis.",
+      "answer": "Oral submucous fibrosis (OSF) is defined as a chronic, progressive, scarring disease that predominantly affects individuals of South-East Asian origin. It was first described by Schwartz in 1952, who referred to it as \"atrophia idiopathica (tropica) mucosae oris.\" In 1953, Joshi from Bombay (Mumbai) renamed the condition as oral submucous fibrosis, emphasizing its histological characteristics. OSF is considered an oral precancerous condition, which is a generalized pathological state of the oral mucosa associated with a significantly increased risk of cancer (Shafer's Oral Pathology, p. 101).\n\nKey points:\n- Chronic and progressive nature\n- Predominantly affects South-East Asians\n- Associated with betel quid chewing\n- Considered a precancerous condition due to increased cancer risk",
+      "expected_key_points": [
+        "chronic fibrotic disease",
+        "areca nut/betel quid",
+        "pre-malignant"
+      ],
+      "faithfulness": 4,
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness_reason": "Most claims are supported by the context, but the association with betel quid chewing is not explicitly mentioned in the retrieved context.",
+      "relevance_reason": "The answer directly addresses the question by defining oral submucous fibrosis and mentioning its key characteristics.",
+      "completeness_reason": "The answer includes most expected key points, but the specific mention of areca nut/betel quid is missing.",
+      "overall": 4.33
+    },
+    {
+      "id": 5,
+      "category": "Definition",
+      "question": "What is a dentigerous cyst?",
+      "answer": "A dentigerous cyst, also known as a follicular cyst, is an odontogenic cyst that surrounds the crown of an impacted tooth. It is caused by fluid accumulation between the reduced enamel epithelium and the enamel surface, resulting in a cyst in which the crown is located within the lumen. This type of cyst is one of the most common developmental odontogenic cysts, accounting for about 20% of all jaw cysts. It is estimated that about 10% of impacted teeth have formed a dentigerous cyst, with a frequency in the general population of approximately 1.44 cysts for every 100 unerupted teeth. The cyst nearly always involves or is associated with the crown of a normal permanent tooth, and it seldom involves a deciduous tooth (p. 260).\n\nRadiographically, a dentigerous cyst appears as a radiolucent area associated with an unerupted tooth crown. The impacted or otherwise unerupted tooth crown may be surrounded symmetrically by this radiolucency, and sometimes the radiolucent area is surrounded by a thin sclerotic line representing a bony reaction (p. 262).\n\nHistologically, the cyst wall is attached to the cervical region of the associated unerupted tooth, with the crown of the tooth projecting into the cyst cavity. The roots of the tooth may exhibit hypercementosis (p. 260).\n\nClinically, the dentigerous cyst is associated initially with the crown of an impacted, embedded, or unerupted tooth. Most lesions present in the second and third decades, with a slight male predilection. Most dentigerous cysts are solitary, with bilateral and multiple cysts usually found in association with certain syndromes (p. 260).\n\nTreatment of a dentigerous cyst is usually dictated by the size of the lesion. Smaller lesions can be surgically removed in their entirety with little difficulty. Larger cysts, which involve serious loss of bone and thin the bone dangerously, are often treated by insertion of a surgical drain or marsupialization to prevent jaw fracture (p. 262).",
+      "expected_key_points": [
+        "odontogenic cyst",
+        "crown of unerupted tooth",
+        "most common developmental cyst"
+      ],
+      "faithfulness": 4,
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness_reason": "Most claims are supported by the retrieved context, but some specific statistics are not directly verified.",
+      "relevance_reason": "The answer directly addresses the question about what a dentigerous cyst is.",
+      "completeness_reason": "The answer includes all expected key points: odontogenic cyst, crown of unerupted tooth, and most common developmental cyst.",
+      "overall": 4.67
+    },
+    {
+      "id": 6,
+      "category": "Classification",
+      "question": "Classify odontogenic cysts.",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, odontogenic cysts can be classified as follows:\n\n**Classification by Etiology:**\n\n1. **Developmental Odontogenic Cysts:**\n   - Dentigerous cyst\n   - Eruption cyst\n   - Odontogenic keratocyst\n   - Gingival cyst of the newborn\n   - Gingival cyst of the adult\n   - Lateral periodontal cyst\n   - Calcifying odontogenic cyst\n   - Glandular odontogenic cyst\n\n2. **Inflammatory Odontogenic Cysts:**\n   - Result of inflammation\n\nThis classification is based on the origin and development of the cysts, recognizing whether they arise from developmental anomalies or as a result of inflammatory processes. (Reference: Page 273-275)",
+      "expected_key_points": [
+        "developmental",
+        "inflammatory",
+        "dentigerous",
+        "odontogenic keratocyst",
+        "periapical",
+        "residual"
+      ],
+      "faithfulness": 3,
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness_reason": "The system's classification is partially supported by the retrieved context but lacks specific references for some cyst types.",
+      "relevance_reason": "The answer addresses the classification of odontogenic cysts as requested.",
+      "completeness_reason": "The answer includes most of the expected key points but lacks explicit mention of periapical and residual cysts.",
+      "overall": 3.67
+    },
+    {
+      "id": 7,
+      "category": "Classification",
+      "question": "What are the types of ameloblastoma?",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, the types of ameloblastoma are classified into six histopathologic subtypes:\n\n1. **Follicular Type**: Characterized by islands of odontogenic epithelium resembling the enamel organ.\n2. **Acanthomatous Type**: Features squamous metaplasia within the epithelial islands.\n3. **Granular Cell Type**: Contains granular cells within the epithelial islands.\n4. **Plexiform Type**: Exhibits a network-like arrangement of epithelial strands.\n5. **Basal Cell Type**: Resembles basal cell carcinoma with nests of basaloid cells.\n6. **Unicystic Ameloblastoma**: Characterized by a cystic cavity lined by ameloblastomatous epithelium, with possible intraluminal nodules.\n\n(Page references: 278-281)",
+      "expected_key_points": [
+        "solid/multicystic",
+        "unicystic",
+        "peripheral/extraosseous"
+      ],
+      "faithfulness": 3,
+      "relevance": 3,
+      "completeness": 2,
+      "faithfulness_reason": "The system answer includes some types of ameloblastoma mentioned in the context but not all are directly supported.",
+      "relevance_reason": "The answer partially addresses the question by listing types but misses the specific categories expected.",
+      "completeness_reason": "The expected key points of solid/multicystic, unicystic, and peripheral/extraosseous are not fully covered.",
+      "overall": 2.67
+    },
+    {
+      "id": 8,
+      "category": "Classification",
+      "question": "List the pre-malignant conditions of the oral cavity.",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, the pre-malignant conditions of the oral cavity include:\n\n1. Oral leukoplakia\n2. Oral submucous fibrosis\n3. Lichen planus\n4. Sideropenic dysphagia\n\nThese conditions are associated with an increased risk of developing oral cancer. Additional details on these conditions may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "leukoplakia",
+        "erythroplakia",
+        "oral submucous fibrosis",
+        "lichen planus"
+      ],
+      "faithfulness": 2,
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness_reason": "The claim about sideropenic dysphagia is not supported by the retrieved context.",
+      "relevance_reason": "The answer addresses the question about pre-malignant conditions of the oral cavity.",
+      "completeness_reason": "The answer includes most of the expected key points but adds an unsupported condition.",
+      "overall": 3.33
+    },
+    {
+      "id": 9,
+      "category": "Classification",
+      "question": "Classify salivary gland tumors.",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, salivary gland tumors can be classified as follows:\n\n1. **Benign Salivary Gland Tumors:**\n   - **Warthin\u2019s Tumor:** Recognized by Albrecht in 1910 and later described by Warthin in 1929. It is the second most common tumor in the salivary glands.\n   - **Myoepithelioma:** Composed of spindle-shaped myoepithelial cells, with cells present in groups separated by a loose, myxoid stroma (Figures 3-7 and 3-8).\n\n2. **Malignant Salivary Gland Tumors:**\n   - **Adenoid Cystic Carcinoma:** Composed of myoepithelial cells and ductal cells with three growth patterns: cribriform (classic), tubular, and solid (basaloid) (Page 239).\n   - **Polymorphous Low-Grade Adenocarcinoma:** First described in 1983, includes entities previously termed as terminal duct carcinoma, lobular carcinoma, papillary carcinoma, and trabecular carcinoma (Page 240).\n   - **Carcinosarcoma:** Contains both carcinoma and sarcoma components, with metastatic lesions containing both stromal and epithelial elements (Page 245).\n\n3. **Malignant Mesenchymal Salivary Gland Neoplasms:**\n   - Includes malignant schwannoma, hemangiopericytoma, malignant fibrous histiocytoma, rhabdomyosarcoma, and fibrosarcoma. These neoplasms represent approximately 0.5% of all benign and malignant salivary gland tumors and approximately 1.5% of all malignant tumors.\n\nThis classification provides an overview of the types of salivary gland tumors based on their benign or malignant nature and specific histological characteristics. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "pleomorphic adenoma",
+        "Warthin's tumor",
+        "mucoepidermoid carcinoma",
+        "adenoid cystic carcinoma"
+      ],
+      "faithfulness": 3,
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness_reason": "Some claims are not directly supported by the retrieved context.",
+      "relevance_reason": "The answer addresses the classification of salivary gland tumors but includes additional details not specifically asked for.",
+      "completeness_reason": "The answer includes some expected key points but misses pleomorphic adenoma and mucoepidermoid carcinoma.",
+      "overall": 3.33
+    },
+    {
+      "id": 10,
+      "category": "Classification",
+      "question": "What are the types of fibro-osseous lesions?",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, the types of fibro-osseous lesions include:\n\n1. **Fibrous Dysplasia**\n   - Monostotic\n   - Polyostotic\n   - Craniofacial\n   - Familial\n   - Hereditary\n   - Juvenile\n\n2. **Central Ossifying Fibroma**\n\n3. **Fibro-osteoma, Central**\n\nThese classifications are derived from the provided excerpts, specifically mentioned on pages 135 and 546. Additional details about these lesions may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "fibrous dysplasia",
+        "ossifying fibroma",
+        "cemento-ossifying fibroma",
+        "central giant cell lesion"
+      ],
+      "faithfulness": 3,
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness_reason": "The system's claims about fibrous dysplasia and central ossifying fibroma are supported, but fibro-osteoma is not clearly supported by the context.",
+      "relevance_reason": "The answer addresses the question about types of fibro-osseous lesions but includes some irrelevant details about fibrous dysplasia subtypes.",
+      "completeness_reason": "The answer includes fibrous dysplasia and central ossifying fibroma but misses cemento-ossifying fibroma and central giant cell lesion.",
+      "overall": 3.33
+    },
+    {
+      "id": 11,
+      "category": "Clinical Features",
+      "question": "Describe the clinical features of oral squamous cell carcinoma.",
+      "answer": "**Clinical Features of Oral Squamous Cell Carcinoma (OSCC):**\n\n1. **Age and Gender Predilection:**\n   - OSCC is predominantly found after the fourth decade of life.\n   - There is a male predominance, with a ratio of approximately 2:1 for oral carcinoma, except for carcinoma of the vermilion border of the lower lip, where there is a strong male predominance (p. 111).\n\n2. **Epidemiology:**\n   - The incidence of OSCC varies globally, ranging from approximately 2\u201310 per 100,000 population per year. This variation is often attributed to environmental factors and lifestyle habits, such as betel quid chewing (p. 111).\n\n3. **Histopathological Features:**\n   - Classic microscopic alterations include:\n     - Enlarged nuclei and cell size\n     - Large and prominent nucleoli\n     - Increased nuclear/cytoplasmic ratio\n     - Hyperchromatic (dark staining) nuclei\n     - Dyskeratosis (premature keratinization of cells)\n     - Increased and/or aberrant mitotic activity (p. 111).\n\n4. **Clinical Presentation:**\n   - OSCC may present as a persistent ulcer or mass in the oral cavity.\n   - It can be asymptomatic in early stages, making early detection challenging.\n   - Lesions may appear as white or red patches, or a combination of both, and can be mistaken for benign conditions.\n   - As the disease progresses, symptoms such as pain, difficulty in swallowing, and changes in speech may occur.\n\n5. **Prognosis:**\n   - The prognosis for OSCC can be poor, with survival rates at five and ten years being 24% and 18%, respectively, in some studies (p. 111).\n\n**Clinical Significance:**\n- Early detection and diagnosis are crucial for improving outcomes in patients with OSCC. Regular oral examinations and awareness of risk factors are important for early intervention.\n\nBased on the available excerpts, these are the clinical features of oral squamous cell carcinoma. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "ulcer with raised everted edges",
+        "induration",
+        "cervical lymphadenopathy",
+        "floor of mouth",
+        "lateral tongue"
+      ],
+      "faithfulness": 3,
+      "relevance": 3,
+      "completeness": 2,
+      "faithfulness_reason": "Some claims are supported by the context, but not all details are directly referenced.",
+      "relevance_reason": "The answer provides general information about OSCC but lacks focus on specific clinical features.",
+      "completeness_reason": "The answer misses key points like 'ulcer with raised everted edges' and 'induration'.",
+      "overall": 2.67
+    },
+    {
+      "id": 12,
+      "category": "Clinical Features",
+      "question": "What are the histological features of pleomorphic adenoma?",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, the histological features of pleomorphic adenoma are as follows:\n\n1. **Morphological Complexity**:\n   - The tumor exhibits a variety of structural histologic patterns, with significant variation both among individual tumors and within a single tumor (p. 226).\n   - It demonstrates combinations of glandular epithelium and mesenchyme-like tissue, with the proportion of each component varying widely (p. 226).\n\n2. **Cellular Composition**:\n   - The tumor cells show differentiation that results in fibrous, hyalinized, myxoid, chondroid, and even osseous areas (Front Matter).\n\n3. **Histogenetic Origin**:\n   - A neoplastically altered epithelial cell with the potential for multidirectional differentiation may be responsible for the pleomorphic adenoma (p. 226).\n\n4. **Cytogenetic Abnormalities**:\n   - Consistent cytogenetic abnormalities are observed, chiefly involving the chromosome region 12q13-15, with the pleomorphic adenoma gene (PLAG1) mapped to chromosome 8q12 (p. 226).\n\nThese features highlight the complex and varied histological nature of pleomorphic adenomas. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "mixed epithelial and mesenchymal elements",
+        "myxoid/chondroid stroma",
+        "encapsulated"
+      ],
+      "faithfulness": 4,
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness_reason": "Most claims are supported by the context, but the cytogenetic abnormalities are not directly mentioned in the retrieved text.",
+      "relevance_reason": "The answer addresses the histological features of pleomorphic adenoma but includes additional details not specifically asked for.",
+      "completeness_reason": "The answer mentions mixed epithelial and mesenchymal elements and myxoid/chondroid stroma but does not explicitly mention encapsulation.",
+      "overall": 3.67
+    },
+    {
+      "id": 13,
+      "category": "Clinical Features",
+      "question": "Describe the clinical presentation of geographic tongue.",
+      "answer": "**Clinical Presentation of Geographic Tongue**\n\nGeographic tongue, also known as benign migratory glossitis, is a common oral condition characterized by the following clinical features:\n\n1. **Appearance**: \n   - The condition is marked by well-demarcated, erythematous patches on the dorsal surface of the tongue. These patches are often surrounded by a slightly elevated, white or yellowish border, giving the tongue a map-like appearance, hence the name \"geographic tongue\" (Fig. 1-24).\n\n2. **Pattern**:\n   - The lesions tend to migrate over time, changing in shape and size, which contributes to the term \"migratory\" in its name.\n\n3. **Symptoms**:\n   - While many individuals are asymptomatic, some may experience a burning sensation or discomfort, especially when consuming spicy or acidic foods.\n\n4. **Associated Conditions**:\n   - There is an increased frequency of geographic tongue in individuals with psoriasis, although most affected individuals do not have psoriatic skin involvement. It is also noted to become more prominent during periods of psychological stress.\n\n5. **Demographics**:\n   - The condition is more clinically apparent in females, and hormonal factors may play a role, as it often arises during puberty, adolescence, pregnancy, or menopause.\n\n6. **Clinical Significance**:\n   - Geographic tongue is generally of little clinical significance and is often discovered incidentally during routine oral examinations.\n\nBased on the available excerpts, geographic tongue is a benign condition with distinctive clinical features that are primarily of aesthetic concern rather than a serious medical issue. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "erythematous patches",
+        "white serpentine borders",
+        "migratory",
+        "asymptomatic"
+      ],
+      "faithfulness": 3,
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness_reason": "Some claims, such as the association with psoriasis and hormonal factors, are not directly supported by the retrieved context.",
+      "relevance_reason": "The answer directly addresses the clinical presentation of geographic tongue as asked.",
+      "completeness_reason": "The answer includes most of the expected key points but adds additional information not required by the question.",
+      "overall": 4.0
+    },
+    {
+      "id": 14,
+      "category": "Clinical Features",
+      "question": "What are the features of Sjogren's syndrome?",
+      "answer": "**Features of Sj\u00f6gren's Syndrome**\n\nSj\u00f6gren's syndrome, also known as Sicca syndrome or Gougerot-Sj\u00f6gren syndrome, is a chronic autoimmune condition characterized by the following features:\n\n1. **Triad of Symptoms**:\n   - **Keratoconjunctivitis Sicca**: Dryness of the eyes.\n   - **Xerostomia**: Dryness of the mouth.\n   - **Rheumatoid Arthritis**: Often associated with joint inflammation (Page 250).\n\n2. **Primary vs. Secondary Sj\u00f6gren's Syndrome**:\n   - **Primary Sj\u00f6gren's Syndrome**: Patients present only with dry eyes and dry mouth (sicca complex).\n   - **Secondary Sj\u00f6gren's Syndrome**: Involves additional autoimmune diseases such as systemic lupus erythematosus (Page 250).\n\n3. **Autoimmune Etiology**:\n   - An altered immunologic response is considered the main intrinsic factor responsible for the disease.\n   - Laboratory findings support an autoimmune etiology, with antisalivary duct antibodies present in a significant number of patients (Page 250).\n\n4. **Radiographic Features**:\n   - Sialography may show punctate, cavitary defects filled with radiopaque contrast media, described as a 'cherry blossom' or 'branchless fruit-laden tree' appearance (Page 250).\n\n5. **Clinical Presentation**:\n   - Bilateral swelling of the salivary glands, often constant and accompanied by lymph node enlargement.\n   - A punch biopsy of labial glands and serological tests may be needed for diagnosis (Page 250).\n\n6. **Complications**:\n   - Development of pseudolymphoma and malignant lymphoma is a major complication.\n   - Patients with Sj\u00f6gren\u2019s syndrome may also exhibit alterations in the accessory salivary glands similar to those in the major glands (Page 250).\n\n7. **Associated Conditions**:\n   - Sj\u00f6gren\u2019s syndrome is associated with other conditions such as thyroid diseases, liver diseases, and various autoimmune diseases (Page 250).\n\nBased on the available excerpts, these are the key features of Sj\u00f6gren's syndrome. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "xerostomia",
+        "xerophthalmia",
+        "autoimmune",
+        "anti-SSA/SSB antibodies"
+      ],
+      "faithfulness": 4,
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness_reason": "Most claims are supported by the retrieved context, but specific antibody details are not directly mentioned.",
+      "relevance_reason": "The answer addresses the features of Sj\u00f6gren's syndrome, including dryness and autoimmune aspects.",
+      "completeness_reason": "The answer includes xerostomia, xerophthalmia, and autoimmune features but lacks specific mention of anti-SSA/SSB antibodies.",
+      "overall": 4.0
+    },
+    {
+      "id": 15,
+      "category": "Clinical Features",
+      "question": "Describe the radiographic features of ameloblastoma.",
+      "answer": "**Radiographic Features of Ameloblastoma**\n\nAmeloblastoma is a neoplasm that presents distinct radiographic characteristics, which are crucial for its diagnosis and differentiation from other lesions. The following are the key radiographic features of ameloblastoma:\n\n1. **General Appearance**:\n   - Ameloblastoma is typically described as a multilocular cyst-like lesion of the jaw, particularly in advanced cases. This appearance is due to the compartmented structure of the tumor with septa of bone extending into the radiolucent tumor mass (Page 278).\n   - In some cases, the lesion may appear as a unilocular radiolucent area, lacking characteristic or pathognomonic features (Page 278).\n\n2. **Periphery**:\n   - The periphery of the lesion on the radiograph is usually smooth, although this regularity may not always be present (Page 278).\n   - The lesion often remains smooth and may not cause any complaint from the patient, being discovered accidentally during radiographic examination (Page 278).\n\n3. **Location and Size**:\n   - The lesion generally appears as a radiolucency of variable size, ranging from a few millimeters to a centimeter or more (Page 278).\n   - Ameloblastoma has a predilection for the mandibular molar area (Page 278).\n\n4. **Differentiation**:\n   - There are no constant significant differences between the appearance of simple ameloblastoma and that of the ameloblastic fibroma, emphasizing the need for careful identification (Page 278).\n\n5. **Multilocular Pattern**:\n   - In some cases, the radiographic pattern may show a combined pattern of radiolucency and radiopacity with many small, irregular bony trabeculae traversing the radiolucent area in various directions, producing a multilocular or honeycomb pattern (Page 284).\n\nThese radiographic features are essential for the diagnosis and management of ameloblastoma, highlighting the importance of careful radiographic examination and differentiation from other similar lesions.",
+      "expected_key_points": [
+        "multilocular radiolucency",
+        "soap bubble appearance",
+        "root resorption",
+        "mandible predominance"
+      ],
+      "faithfulness": 3,
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness_reason": "Some claims, such as the multilocular pattern and mandibular predilection, are supported, but others like root resorption and soap bubble appearance are not explicitly mentioned in the retrieved context.",
+      "relevance_reason": "The answer addresses the radiographic features of ameloblastoma, which is the focus of the question.",
+      "completeness_reason": "The answer includes some expected key points like multilocular radiolucency and mandible predominance but misses others like root resorption and soap bubble appearance.",
+      "overall": 3.33
+    },
+    {
+      "id": 16,
+      "category": "Comparison",
+      "question": "What is the difference between leukoplakia and lichen planus?",
+      "answer": "To address the comparison question regarding the difference between leukoplakia and lichen planus, the following structured format highlights the distinguishing features based on the provided excerpts from Shafer's Oral Pathology:\n\n| Feature                          | Leukoplakia                                                                 | Lichen Planus                                                                 |\n|----------------------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------------|\n| **Definition**                   | Leukoplakia is a white patch or plaque that cannot be characterized as any other disease (p. 680). | Lichen planus is a common mucocutaneous disease characterized by white, reticular lesions (p. 820). |\n| **Etiology**                     | Idiopathic, but often associated with tobacco use (p. 680).                 | Autoimmune nature, often idiopathic (p. 820).                                |\n| **Demographics**                 | Occurs in both smokers and nonsmokers; idiopathic leukoplakia is noted (p. 680). | Commonly affects middle-aged adults, with a slight female predominance (p. 820). |\n| **Clinical Features**            | Appears as a white patch or plaque; may be homogeneous or speckled (p. 680). | Presents as white, reticular, or plaque-like lesions; may also appear as erosive or ulcerative (p. 820). |\n| **Histological Features**        | Hyperkeratosis and possible epithelial dysplasia; lacks specific histological markers (p. 680). | Band-like inflammatory infiltrate; presence of Civatte bodies (p. 811).     |\n| **Differential Diagnosis**       | Must be differentiated from other white lesions like candidiasis and frictional keratosis (p. 680). | Must be differentiated from lesions like lichenoid reactions, leukoplakia, and pemphigus (p. 811). |\n| **Prognosis**                    | Potentially premalignant, especially in speckled or non-homogeneous forms (p. 680). | Generally benign, but requires monitoring due to potential for malignant transformation in erosive forms (p. 820). |\n| **Management**                   | Elimination of possible causes; biopsy for definitive diagnosis (p. 680).   | Identification and elimination of triggering factors; symptomatic treatment (p. 820). |\n\nBased on the available excerpts, leukoplakia and lichen planus differ primarily in their etiology, clinical presentation, and histological features. Leukoplakia is a clinical term for a white lesion of unknown cause, often associated with tobacco use, and may have a potential for malignant transformation. In contrast, lichen planus is an autoimmune condition with characteristic histological features and is generally considered benign, though it requires monitoring for potential complications.",
+      "expected_key_points": [
+        "leukoplakia idiopathic white patch",
+        "lichen planus autoimmune",
+        "Wickham's striae",
+        "lichen planus bilateral"
+      ],
+      "faithfulness": 4,
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness_reason": "Most claims are supported by the context, but some details like Wickham's striae are not explicitly mentioned.",
+      "relevance_reason": "The answer directly addresses the differences between leukoplakia and lichen planus.",
+      "completeness_reason": "The answer covers most expected key points but lacks mention of Wickham's striae and bilateral nature of lichen planus.",
+      "overall": 4.33
+    },
+    {
+      "id": 17,
+      "category": "Comparison",
+      "question": "Differentiate periapical granuloma from periapical cyst.",
+      "answer": "To differentiate between a periapical granuloma and a periapical cyst, we can compare their characteristics in a structured format as follows:\n\n| Feature                   | Periapical Granuloma                                      | Periapical Cyst                                          |\n|---------------------------|-----------------------------------------------------------|----------------------------------------------------------|\n| Definition                | A periapical granuloma is a localized mass of chronically inflamed granulation tissue at the apex of a non-vital tooth. | A periapical cyst is a pathologic cavity lined by epithelium, often fluid-filled, at the apex of a non-vital tooth. |\n| Pathogenesis              | Arises due to pulpal necrosis following caries or other events leading to pulpal necrosis. | Develops from a pre-existing periapical granuloma when the epithelial rests of Malassez proliferate due to inflammatory stimulus. |\n| Radiographic Features     | Appears as a radiolucent area, but cannot be distinguished from a cyst radiographically. | Also appears as a radiolucent area, often with a well-defined radiopaque rim, but radiographic size cannot reliably distinguish it from a granuloma. |\n| Histologic Features       | Composed of granulation tissue with a profuse infiltrate of lymphocytes, macrophages, and plasma cells. | Consists of a cavity lined by epithelium, derived from the epithelial rests of Malassez. |\n| Clinical Detection        | Often asymptomatic and not clinically detectable when small; discovered incidentally on radiographic surveys. | Similar to granulomas, cysts are usually discovered incidentally on radiographic surveys. |\n| Diagnostic Challenges     | Difficult to distinguish from cysts based on radiographic means alone; biopsy or advanced imaging like cone beam computed tomography may be needed. | Similar diagnostic challenges as granulomas; advanced imaging may aid in differentiation. |\n| Potential for Transformation | Every periapical granuloma may potentially form a periodontal cyst if left undisturbed and inflammation persists. | Represents the cystic transformation of a granuloma under persistent inflammatory conditions. |\n\nBased on the available excerpts, both periapical granulomas and cysts present diagnostic challenges due to their similar radiographic appearances. Advanced imaging techniques, such as cone beam computed tomography, may provide more accurate differentiation. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "granuloma has no epithelial lining",
+        "cyst lined by epithelium",
+        "both at root apex"
+      ],
+      "faithfulness": 3,
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness_reason": "Some claims, such as the presence of epithelium in all granulomas, are not fully supported by the context.",
+      "relevance_reason": "The answer directly addresses the differentiation between periapical granuloma and cyst.",
+      "completeness_reason": "The answer includes most key points, but lacks emphasis on the absence of epithelial lining in granulomas.",
+      "overall": 4.0
+    },
+    {
+      "id": 18,
+      "category": "Comparison",
+      "question": "Compare pleomorphic adenoma and mucoepidermoid carcinoma.",
+      "answer": "To compare pleomorphic adenoma and mucoepidermoid carcinoma, we will focus on distinguishing features between these two salivary gland tumors. \n\n### Comparison of Pleomorphic Adenoma and Mucoepidermoid Carcinoma\n\n| Feature                         | Pleomorphic Adenoma                                      | Mucoepidermoid Carcinoma                                |\n|---------------------------------|----------------------------------------------------------|----------------------------------------------------------|\n| **Nature**                      | Benign tumor                                              | Malignant epithelial tumor                                |\n| **Composition**                 | Composed of a mixture of epithelial and myoepithelial cells | Composed of mucus-secreting cells and epidermoid-type cells |\n| **Encapsulation**               | Well-encapsulated                                         | Not completely encapsulated                               |\n| **Growth Pattern**              | Slow-growing, painless mass                               | Varies by grade; low-grade is slow-growing and painless   |\n| **Size**                        | Can grow larger than 5 cm                                 | Seldom exceeds 5 cm in diameter                           |\n| **Clinical Presentation**       | Often presents as a painless, movable mass                | May present as a painless mass; cystic and solid components |\n| **Age and Gender Predilection** | Occurs in a wide age range, no strong gender predilection | Slight female predilection, common in third to fifth decades, average age 47 |\n| **Common Sites**                | Parotid gland is the most common site                     | Strong predilection for the palate, common in minor glands |\n| **Histological Features**       | Diverse histological patterns with myxoid, chondroid, and osseous areas | Varying proportions of mucus-secreting and epidermoid cells, nuclear pleomorphism, mitotic activity |\n| **Prognosis**                   | Excellent with surgical excision                          | Prognosis varies by grade; low-grade has a high cure rate, high-grade has a lower cure rate |\n\n### Key Takeaways\n- **Pleomorphic adenoma** is a benign, well-encapsulated tumor known for its diverse histological patterns and slow growth.\n- **Mucoepidermoid carcinoma** is a malignant tumor with varying clinical behavior depending on its grade, characterized by a mix of mucus-secreting and epidermoid cells.\n\nBased on the available excerpts, this comparison highlights the key differences between pleomorphic adenoma and mucoepidermoid carcinoma. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "pleomorphic adenoma benign",
+        "mucoepidermoid carcinoma malignant",
+        "mucous and epidermoid cells in MEC"
+      ],
+      "faithfulness": 4,
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness_reason": "Most claims are supported by the context, but some details like encapsulation are not explicitly mentioned.",
+      "relevance_reason": "The answer directly compares pleomorphic adenoma and mucoepidermoid carcinoma as requested.",
+      "completeness_reason": "The answer includes all expected key points about the nature and cell composition of the tumors.",
+      "overall": 4.67
+    },
+    {
+      "id": 19,
+      "category": "Edge Cases",
+      "question": "What causes white sponge nevus?",
+      "answer": "**White Sponge Nevus: Causes**\n\nWhite sponge nevus, also known as familial white folded dysplasia of the mucous membrane or Cannon\u2019s disease, is a genetic condition. The primary cause of white sponge nevus is a hereditary mutation. Specifically, it is caused by mutations in the genes responsible for keratin production, which leads to the characteristic changes in the oral mucosa.\n\n- **Genetic Basis**: The condition is inherited in an autosomal dominant pattern, meaning a single copy of the mutated gene from an affected parent can cause the disorder in offspring.\n\n- **Pathogenesis**: The mutation affects the keratinization process in the mucous membranes, leading to the intracellular edema and cellular pyknosis of the spinous cells, as seen in the histological examination (Figure 19-16, page 821). This results in the folded, spongy texture of the buccal mucosa (Figure 19-17, page 846).\n\nBased on the available excerpts, the cause of white sponge nevus is primarily genetic, involving mutations in keratin-related genes. Additional details on the specific genes involved may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "autosomal dominant",
+        "keratin 4 or 13 mutation",
+        "bilateral white folded mucosa"
+      ],
+      "faithfulness": 3,
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness_reason": "The answer mentions genetic causes and keratin mutations but lacks specific gene details from the context.",
+      "relevance_reason": "The answer addresses the genetic cause of white sponge nevus but lacks specific gene names.",
+      "completeness_reason": "The answer includes autosomal dominant inheritance and mucosal changes but omits specific keratin gene mutations.",
+      "overall": 3.33
+    },
+    {
+      "id": 20,
+      "category": "Edge Cases",
+      "question": "Describe the management of odontogenic keratocyst.",
+      "answer": "Based on the available excerpts from Shafer's Oral Pathology, the management of odontogenic keratocyst involves the following:\n\n### Management Overview\n- **Surgical Excision**: The primary treatment for odontogenic keratocyst is surgical excision. However, complete eradication of the cyst can be challenging due to the thin and friable nature of the cyst wall, which may easily fragment during the procedure (p. 264).\n\n### Challenges in Management\n- **Perforation of Cortical Bone**: Particularly in lesions involving the ramus, perforation of the cortical bone is common, complicating total removal of the cyst (p. 264).\n\n### Recurrence and Prognosis\n- **High Recurrence Rate**: The odontogenic keratocyst is known for its high recurrence rate, reported between 13% and 60%, with an average of 26%. Most recurrences occur within five years post-surgery (p. 263).\n\n### Clinical Significance\n- **Locally Destructive Behavior**: The odontogenic keratocyst exhibits behavior similar to a benign neoplasm, being locally destructive and having a tendency to recur (p. 263).\n\n### Additional Considerations\n- **Reclassification**: It is important to note that the World Health Organization has reclassified the odontogenic keratocyst as a tumor, specifically the keratocystic odontogenic tumor (KOT), due to its clinical behavior (p. 263).\n\nBased on the available excerpts, this is the comprehensive information on the management of odontogenic keratocyst. Additional details may be found in other sections of the textbook.",
+      "expected_key_points": [
+        "high recurrence rate",
+        "enucleation",
+        "resection",
+        "Carnoy's solution"
+      ],
+      "faithfulness": 3,
+      "relevance": 3,
+      "completeness": 2,
+      "faithfulness_reason": "The claims about recurrence rate and surgical challenges are supported, but not all management strategies are covered.",
+      "relevance_reason": "The answer partially addresses the management of odontogenic keratocyst but lacks specific details on enucleation, resection, and Carnoy's solution.",
+      "completeness_reason": "The answer mentions the high recurrence rate but omits key management strategies like enucleation, resection, and Carnoy's solution.",
+      "overall": 2.67
+    }
+  ]
+}

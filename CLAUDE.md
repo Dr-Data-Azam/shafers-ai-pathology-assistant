@@ -30,7 +30,7 @@ docker compose up                                        # web UI at http://loca
 
 ## Architecture
 
-Eight modules, functional style (no classes), module-level globals for singleton caching:
+Nine modules, functional style (no classes), module-level globals for singleton caching:
 
 ```
 streamlit_app.py        ← Web UI; main entry point
@@ -41,12 +41,18 @@ vector_retriever.py     ← FAISS MMR retrieval (k=12, λ=0.7) + query expansion
 vector_store_creator.py ← One-time PDF → FAISS pipeline
 chat_history_manager.py ← JSON-backed history, capped at 100 interactions
 exceptions.py           ← Typed exception hierarchy: PathologyAppError, LLMError, RetrieverError, ConfigError
+eval_runner.py          ← Standalone RAG evaluation; LLM-as-judge scoring; regression detection
 ```
 
 **Data flow**: PDF → `vector_store_creator` → `vectorDB/my_FAISS_db` → `vector_retriever`
 → `rag_system` (adaptive prompt + LLM) → `chat_history_manager`
 
 **Key paths** (git-ignored): `vectorDB/my_FAISS_db`, `vectorDB/retriever.pkl`, `data/`, `chat_history.json`, `app.log`
+
+**Evaluation paths** (tracked in git): `evals/golden_questions.json` — 20 curated golden questions;
+`eval_results_<date>.json` and `eval_report_<date>.md` — dated run outputs committed as regression
+baselines. `find_previous_results()` in `eval_runner.py` relies on these files existing in the repo
+to detect regressions; do not delete them.
 
 **Docker volume**: In containerized runs the FAISS index lives in the `vectordb` named Docker
 volume (mounted at `/app/vectorDB`), not a local directory. Do not delete this volume —
@@ -126,6 +132,7 @@ YOU: review + approve spec
 "use the test-writer agent"   → writes tests for the new code
 "use the code-reviewer agent" → reviews the diff
 "use the security-reviewer"   → security check (on credential/input changes)
+/eval                         → RAG quality gate (required before shipping any RAG change)
 write implementation summary  → save specs/<slug>/implementation-summary.md
 /ship-feature "type(scope): description"  → commit, push, PR, merge, back to main
 ```
