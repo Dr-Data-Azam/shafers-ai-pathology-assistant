@@ -40,6 +40,10 @@ jobs:
         run: uv sync --frozen
 
       - name: Run tests with coverage
+        env:
+          OPENAI_API_KEY: dummy-key-for-ci
+          GROQ_API_KEY: dummy-key-for-ci
+          HUGGINGFACEHUB_ACCESS_TOKEN: dummy-token-for-ci
         run: uv run pytest
 
   security:
