@@ -1,10 +1,15 @@
 # File: llm_provider_manager.py
+import logging
 import os
 from typing import List, Union
-from langchain_openai import ChatOpenAI
+
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 
 from config import get_config
+from exceptions import LLMError
+
+logger = logging.getLogger(__name__)
 
 # Global cache for LLM instances
 _llm_openai = None
@@ -31,15 +36,15 @@ def validate_provider(provider: str) -> bool:
     available_providers = get_available_providers()
 
     if not available_providers:
-        raise Exception(
-            "No API keys found. Please set OPENAI_API_KEY or GROQ_API_KEY in your .env file"
-        )
+        msg = "No API keys found. Please set OPENAI_API_KEY or GROQ_API_KEY in your .env file"
+        logger.error(msg)
+        raise LLMError(provider=provider, message=msg)
 
     if provider not in available_providers:
         missing_key = "OPENAI_API_KEY" if provider == "openai" else "GROQ_API_KEY"
-        raise Exception(
-            f"Provider '{provider}' not available. Please set {missing_key} in your .env file"
-        )
+        msg = f"Provider '{provider}' not available. Please set {missing_key} in your .env file"
+        logger.error(msg)
+        raise LLMError(provider=provider, message=msg)
 
     return True
 
@@ -66,7 +71,9 @@ def load_llm(provider: str = "openai") -> Union[ChatOpenAI, ChatGroq]:
             )
             return _llm_openai
         except Exception as e:
-            raise Exception(f"Failed to load OpenAI model: {str(e)}")
+            safe_msg = getattr(e, "message", None) or type(e).__name__
+            logger.error("Failed to load OpenAI model: %s", safe_msg)
+            raise LLMError(provider="openai", message=safe_msg)
 
     elif provider.lower() == "groq":
         if _llm_groq is not None:
@@ -82,10 +89,14 @@ def load_llm(provider: str = "openai") -> Union[ChatOpenAI, ChatGroq]:
             )
             return _llm_groq
         except Exception as e:
-            raise Exception(f"Failed to load Groq model: {str(e)}")
+            safe_msg = getattr(e, "message", None) or type(e).__name__
+            logger.error("Failed to load Groq model: %s", safe_msg)
+            raise LLMError(provider="groq", message=safe_msg)
 
     else:
-        raise ValueError("Provider must be 'openai' or 'groq'")
+        msg = f"Unknown provider '{provider}'. Must be 'openai' or 'groq'."
+        logger.error(msg)
+        raise LLMError(provider=provider, message=msg)
 
 
 def get_provider_info(provider: str) -> dict:

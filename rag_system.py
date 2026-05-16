@@ -1,16 +1,20 @@
 # File: rag_system.py
+import logging
 import time
-from typing import Tuple, Dict, Any
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+from typing import Any, Dict, Tuple
 
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+
+from chat_history_manager import save_chat_history
 from llm_provider_manager import load_llm, validate_provider
 from vector_retriever import (
-    get_retriever,
     get_comprehensive_context,
+    get_retriever,
     process_documents_for_context,
 )
-from chat_history_manager import save_chat_history
+
+logger = logging.getLogger(__name__)
 
 # Adaptive prompt template for both specific and general questions
 PROMPT_TEMPLATE = """You are a distinguished dental expert specializing in Oral Medicine, Diagnosis & Pathology. Your task is to provide accurate, educational answers using ONLY the provided textbook excerpts from Shafer's Oral Pathology.
@@ -80,73 +84,58 @@ def ask_question(
     Returns:
         Tuple of (answer, statistics)
     """
+    logger.debug("Received question (provider=%s, length=%d)", provider, len(query))
     start_time = time.time()
 
-    try:
-        # Validate provider
-        validate_provider(provider)
+    # Validate provider — raises LLMError if unavailable
+    validate_provider(provider)
 
-        # Get retriever and LLM (cached after first call)
-        retriever = get_retriever()
-        llm = load_llm(provider)
+    # Get retriever and LLM (cached after first call) — raises RetrieverError / LLMError
+    retriever = get_retriever()
+    llm = load_llm(provider)
 
-        retrieval_start = time.time()
-        # Get comprehensive context
-        docs = get_comprehensive_context(query, retriever)
-        retrieval_time = time.time() - retrieval_start
+    retrieval_start = time.time()
+    logger.debug("Retrieving context for query (length=%d)", len(query))
+    docs = get_comprehensive_context(query, retriever)
+    retrieval_time = time.time() - retrieval_start
 
-        # Process documents into organized context
-        context, page_groups = process_documents_for_context(docs)
+    context, page_groups = process_documents_for_context(docs)
 
-        # Create chain and invoke
-        prompt = create_prompt()
-        parser = StrOutputParser()
-        chain = prompt | llm | parser
+    prompt = create_prompt()
+    parser = StrOutputParser()
+    chain = prompt | llm | parser
 
-        llm_start = time.time()
-        result = chain.invoke({"context": context, "question": query})
-        llm_time = time.time() - llm_start
+    logger.debug("Invoking LLM (provider=%s)", provider)
+    llm_start = time.time()
+    result = chain.invoke({"context": context, "question": query})
+    llm_time = time.time() - llm_start
 
-        total_time = time.time() - start_time
+    total_time = time.time() - start_time
 
-        # Performance stats
-        stats = {
-            "provider": provider.upper(),
-            "documents_retrieved": len(docs),
-            "pages_retrieved": len(page_groups),
-            "retrieval_time": retrieval_time,
-            "llm_time": llm_time,
-            "total_time": total_time,
-            "success": True,
-            "error": None,
-        }
+    stats = {
+        "provider": provider.upper(),
+        "documents_retrieved": len(docs),
+        "pages_retrieved": len(page_groups),
+        "retrieval_time": retrieval_time,
+        "llm_time": llm_time,
+        "total_time": total_time,
+        "success": True,
+        "error": None,
+    }
 
-        # Save to history if requested
-        if save_history:
-            save_chat_history(
-                query,
-                result,
-                provider,
-                retrieval_time,
-                llm_time,
-                total_time,
-                len(page_groups),
-            )
+    if save_history:
+        save_chat_history(
+            query,
+            result,
+            provider,
+            retrieval_time,
+            llm_time,
+            total_time,
+            len(page_groups),
+        )
 
-        return result, stats
-
-    except Exception as e:
-        error_stats = {
-            "provider": provider.upper(),
-            "documents_retrieved": 0,
-            "pages_retrieved": 0,
-            "retrieval_time": 0,
-            "llm_time": 0,
-            "total_time": time.time() - start_time,
-            "success": False,
-            "error": str(e),
-        }
-        return f"Error: {str(e)}", error_stats
+    logger.info("Question answered in %.2fs (provider=%s)", total_time, provider)
+    return result, stats
 
 
 def get_system_info() -> Dict[str, Any]:

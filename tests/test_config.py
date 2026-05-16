@@ -1,6 +1,5 @@
 # tests/test_config.py
 import pytest
-from pydantic import ValidationError
 
 
 def _clear_cache() -> None:
@@ -53,13 +52,10 @@ def test_missing_both_llm_keys_raises(monkeypatch):
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
 
     from config import AppConfig
+    from exceptions import ConfigError
 
-    with pytest.raises(ValidationError) as exc_info:
+    with pytest.raises(ConfigError):
         AppConfig(_env_file=None)
-
-    assert "OPENAI_API_KEY" in str(exc_info.value) or "GROQ_API_KEY" in str(
-        exc_info.value
-    )
 
 
 def test_only_openai_key_is_sufficient(monkeypatch):
@@ -137,22 +133,18 @@ def test_huggingface_token_stored_when_set(monkeypatch):
     assert cfg.huggingfacehub_access_token == "hf_faketoken123"
 
 
-def test_validation_error_message_mentions_at_least_one_key(monkeypatch):
-    """The ValidationError message references the missing LLM key requirement."""
+def test_config_error_message_mentions_at_least_one_key(monkeypatch):
+    """The ConfigError message references the missing LLM key requirement."""
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
 
     from config import AppConfig
+    from exceptions import ConfigError
 
-    with pytest.raises(ValidationError) as exc_info:
+    with pytest.raises(ConfigError) as exc_info:
         AppConfig(_env_file=None)
 
-    error_text = str(exc_info.value)
-    assert (
-        "OPENAI_API_KEY" in error_text
-        or "GROQ_API_KEY" in error_text
-        or "At least one" in error_text
-    )
+    assert "At least one" in exc_info.value.message
 
 
 # ---------------------------------------------------------------------------
@@ -360,3 +352,69 @@ def test_get_config_reads_updated_env_after_cache_clear(monkeypatch):
 
     cfg2 = get_config()
     assert cfg2.max_tokens == 3000
+
+
+# ---------------------------------------------------------------------------
+# configure_logging()
+# ---------------------------------------------------------------------------
+
+
+def test_configure_logging_attaches_rotating_file_and_stderr_handlers(
+    monkeypatch, tmp_path
+):
+    """configure_logging() adds a RotatingFileHandler and a StreamHandler to root."""
+    import logging
+    import logging.handlers
+
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-log-test")
+
+    from config import AppConfig, configure_logging
+
+    cfg = AppConfig(
+        _env_file=None, log_file=str(tmp_path / "test.log"), log_level="DEBUG"
+    )
+
+    root = logging.getLogger()
+    original_handlers = root.handlers[:]
+    root.handlers.clear()
+
+    try:
+        configure_logging(cfg)
+
+        handler_types = [type(h) for h in root.handlers]
+        assert logging.handlers.RotatingFileHandler in handler_types
+        assert logging.StreamHandler in handler_types
+        assert root.level == logging.DEBUG
+    finally:
+        for h in root.handlers[:]:
+            h.close()
+            root.removeHandler(h)
+        root.handlers.extend(original_handlers)
+
+
+def test_configure_logging_is_idempotent(monkeypatch, tmp_path):
+    """Calling configure_logging() twice does not add duplicate handlers."""
+    import logging
+
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-idempotent-test")
+
+    from config import AppConfig, configure_logging
+
+    cfg = AppConfig(_env_file=None, log_file=str(tmp_path / "test2.log"))
+
+    root = logging.getLogger()
+    original_handlers = root.handlers[:]
+    root.handlers.clear()
+
+    try:
+        configure_logging(cfg)
+        count_after_first = len(root.handlers)
+        configure_logging(cfg)
+        count_after_second = len(root.handlers)
+
+        assert count_after_second == count_after_first
+    finally:
+        for h in root.handlers[:]:
+            h.close()
+            root.removeHandler(h)
+        root.handlers.extend(original_handlers)

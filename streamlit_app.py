@@ -1,17 +1,23 @@
-import streamlit as st
+import logging
 from datetime import datetime
+
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import streamlit as st
 
-# Import your modules
-from rag_system import ask_question, get_system_info
-from llm_provider_manager import get_available_providers, get_provider_info
 from chat_history_manager import (
-    load_chat_history,
     clear_chat_history,
     get_history_stats,
+    load_chat_history,
 )
+from config import configure_logging, get_config
+from exceptions import ConfigError, LLMError, RetrieverError
+from llm_provider_manager import get_available_providers, get_provider_info
+from rag_system import ask_question, get_system_info
+
+configure_logging(get_config())
+logger = logging.getLogger(__name__)
 
 # Page configuration
 st.set_page_config(
@@ -308,8 +314,20 @@ def render_main_chat():
                 # Clear the input
                 st.session_state.current_question = ""
 
-            except Exception as e:
-                st.error(f"Error: {str(e)}")
+            except LLMError as e:
+                logger.error("LLMError in render_main_chat: %s", e)
+                st.error(
+                    "The AI provider is unavailable — please try again or switch providers."
+                )
+            except RetrieverError as e:
+                logger.error("RetrieverError in render_main_chat: %s", e)
+                st.error(
+                    "Could not retrieve context from the textbook — "
+                    "the vector database may need rebuilding."
+                )
+            except ConfigError as e:
+                logger.error("ConfigError in render_main_chat: %s", e)
+                st.error("Configuration error — please check your .env file.")
 
 
 def render_chat_history():

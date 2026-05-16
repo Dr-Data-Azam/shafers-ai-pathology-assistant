@@ -1,3 +1,4 @@
+import pytest
 from unittest.mock import MagicMock, patch
 
 
@@ -179,21 +180,19 @@ def test_ask_question_skips_history_when_flag_false(monkeypatch, mock_docs):
 # ---------------------------------------------------------------------------
 
 
-def test_ask_question_returns_error_stats_on_exception(monkeypatch):
+def test_ask_question_propagates_retriever_error(monkeypatch):
     import rag_system
+    from exceptions import RetrieverError
 
     monkeypatch.setattr(rag_system, "validate_provider", MagicMock())
     monkeypatch.setattr(
         rag_system,
         "get_retriever",
-        MagicMock(side_effect=FileNotFoundError("DB missing")),
+        MagicMock(side_effect=RetrieverError("DB missing")),
     )
 
-    answer, stats = rag_system.ask_question("question")
-
-    assert stats["success"] is False
-    assert "DB missing" in stats["error"]
-    assert "Error:" in answer
+    with pytest.raises(RetrieverError, match="DB missing"):
+        rag_system.ask_question("question")
 
 
 # ---------------------------------------------------------------------------

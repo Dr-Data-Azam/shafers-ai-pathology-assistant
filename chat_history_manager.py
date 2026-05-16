@@ -1,10 +1,13 @@
 # File: chat_history_manager.py
-import os
 import json
+import logging
+import os
 from datetime import datetime
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from config import get_config
+
+logger = logging.getLogger(__name__)
 
 
 def save_chat_history(
@@ -45,7 +48,7 @@ def save_chat_history(
         return True
 
     except Exception as e:
-        print(f"Error saving chat history: {e}")
+        logger.error("Error saving chat history: %s", e)
         return False
 
 
@@ -58,7 +61,7 @@ def load_chat_history() -> List[Dict[str, Any]]:
                 return json.load(f)
         return []
     except Exception as e:
-        print(f"Error loading chat history: {e}")
+        logger.error("Error loading chat history: %s", e)
         return []
 
 
@@ -70,7 +73,7 @@ def clear_chat_history() -> bool:
             os.remove(path)
         return True
     except Exception as e:
-        print(f"Error clearing chat history: {e}")
+        logger.error("Error clearing chat history: %s", e)
         return False
 
 
